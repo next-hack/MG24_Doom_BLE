@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "DoomWSTK")(type "KiCad")(uri "${KIPRJMOD}/DoomWSTK.kicad_sym")(options "")(descr ""))
+  (lib (name "SJ1-3525NG")(type "Legacy")(uri "${KIPRJMOD}/SJ1-3525NG.lib")(options "")(descr ""))
+)

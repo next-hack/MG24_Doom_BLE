@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>C:\Users\niwrachi\SimplicityStudio\v5_workspace\GitHub\MG24Doom\Hardware\SparkDoom\SparkDoom.kicad_sch</source>
+    <date>20/08/2023 14:18:43</date>
+    <tool>Eeschema 7.0.6</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>SparkDoom.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>100n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e3ed383b-a6c3-4bb0-9e32-a0e5dbd4d44f</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>100n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7faae381-9ef1-44be-8c4c-1643faeccf9d</tstamps>
+    </comp>
+    <comp ref="C3">
+      <value>100n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3535462c-28b5-42f7-bb5f-2d82be0ab957</tstamps>
+    </comp>
+    <comp ref="C4">
+      <value>47n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>345c7f37-cc33-4597-8d12-b6475bf775f7</tstamps>
+    </comp>
+    <comp ref="C5">
+      <value>100u</value>
+      <footprint>Capacitor_THT:CP_Radial_D6.3mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C_Polarized" description="Polarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Polarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2d9fc78d-b51d-4c52-a227-efa6a8cc291d</tstamps>
+    </comp>
+    <comp ref="C6">
+      <value>100u</value>
+      <footprint>Capacitor_THT:CP_Radial_D6.3mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C_Polarized" description="Polarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Polarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c5b6dce1-8141-44fd-9650-223b0bbb3bc8</tstamps>
+    </comp>
+    <comp ref="C7">
+      <value>47n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8cc5e1af-e763-46c9-a0bb-c062618214e8</tstamps>
+    </comp>
+    <comp ref="C8">
+      <value>10u</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5f47a704-7f23-46a3-bab5-babca31c5b81</tstamps>
+    </comp>
+    <comp ref="C9">
+      <value>100n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0b198712-e5dc-4a0f-864f-d11e3df75d71</tstamps>
+    </comp>
+    <comp ref="C10">
+      <value>1u</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8313a5e7-0795-48c5-9cc2-f6d37a94c7a2</tstamps>
+    </comp>
+    <comp ref="C11">
+      <value>10u</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ec6d9295-da3b-467a-b25e-f8b3047c0645</tstamps>
+    </comp>
+    <comp ref="C12">
+      <value>100n</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7f1a34f6-fcfe-49b4-82b1-28b167e3c2fe</tstamps>
+    </comp>
+    <comp ref="C13">
+      <value>100p</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ab618658-12e7-4f9a-b18f-8f339833f191</tstamps>
+    </comp>
+    <comp ref="C14">
+      <value>10u</value>
+      <footprint>Capacitor_THT:C_Disc_D5.1mm_W3.2mm_P5.00mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b04c217a-facc-4b69-a160-606e6cc65853</tstamps>
+    </comp>
+    <comp ref="C15">
+      <value>100p</value>
+      <footprint>Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm</footprint>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5f6f734c-de58-45a8-af1b-53c8edb27e68</tstamps>
+    </comp>
+    <comp ref="DISP1">
+      <value>Adafruit4311</value>
+      <footprint>DoomWSTK:Adafruit4311</footprint>
+      <libsource lib="DoomWSTK" part="Adafruit4311" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>87670619-0067-4df8-a703-5ddb431c1236</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>Conn_01x02_Pin</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Pin" description="Generic connector, single row, 01x02, script generated"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Generic connector, single row, 01x02, script generated"/>
+      <property name="ki_keywords" value="connector"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d49b4e49-5b16-4c2e-87dc-d815fea77c83</tstamps>
+    </comp>
+    <comp ref="J3">
+      <value>SJ1-3525NG</value>
+      <footprint>DoomWSTK:CUI_SJ1-3525NG</footprint>
+      <fields>
+        <field name="MANUFACTURER">CUI</field>
+        <field name="PARTREV">1.01</field>
+        <field name="STANDARD">Manufacturer recommendation</field>
+      </fields>
+      <libsource lib="SJ1-3525NG" part="SJ1-3525NG" description=""/>
+      <property name="STANDARD" value="Manufacturer recommendation"/>
+      <property name="PARTREV" value="1.01"/>
+      <property name="MANUFACTURER" value="CUI"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>36196c0f-0a45-484e-b0a3-2047fc81be3a</tstamps>
+    </comp>
+    <comp ref="LS1">
+      <value>Speaker</value>
+      <footprint>DoomWSTK:OWS-1330TA-8</footprint>
+      <libsource lib="Device" part="Speaker" description="Speaker"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Speaker"/>
+      <property name="ki_keywords" value="speaker sound"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>679f898c-0df9-4abe-804a-f3b09d72312b</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>33k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>77610118-a13b-46c1-adeb-56aabe9177ab</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>33k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8416ef6b-f913-4c2f-b04d-32fcbec9d865</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>6k8</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>df7ebe1d-e602-44b8-900d-13ae197252ac</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>330</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>69ca1f34-d30a-4839-befa-b7e3dc6fedbe</tstamps>
+    </comp>
+    <comp ref="R6">
+      <value>330</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3bfce2d4-77be-4acb-b80b-4f290d51be2c</tstamps>
+    </comp>
+    <comp ref="R7">
+      <value>6k8</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e02f2c5c-84ba-445f-83a8-0ec94817e499</tstamps>
+    </comp>
+    <comp ref="R8">
+      <value>33k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4a99bdb4-3601-49ea-8f8c-b089a8859689</tstamps>
+    </comp>
+    <comp ref="R9">
+      <value>33k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>76680fcf-9e12-44ae-8186-269c6af32177</tstamps>
+    </comp>
+    <comp ref="R10">
+      <value>6k8</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8ca85e58-1015-4581-83e9-a070fcd3680e</tstamps>
+    </comp>
+    <comp ref="R11">
+      <value>33k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</footprint>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Resistor"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c2a4ac42-ce1a-46d8-a416-07f35c7f0f26</tstamps>
+    </comp>
+    <comp ref="RN1">
+      <value>R_Network08</value>
+      <footprint>Resistor_THT:R_Array_SIP9</footprint>
+      <datasheet>http://www.vishay.com/docs/31509/csc.pdf</datasheet>
+      <libsource lib="Device" part="R_Network08" description="8 resistor network, star topology, bussed resistors, small symbol"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="8 resistor network, star topology, bussed resistors, small symbol"/>
+      <property name="ki_keywords" value="R network star-topology"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a435aa3a-1a4c-475f-8e9b-75598f87e56c</tstamps>
+    </comp>
+    <comp ref="SW1">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a353d192-35c7-41c4-866d-6e6933a28dd9</tstamps>
+    </comp>
+    <comp ref="SW2">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>bdafb047-a0f1-46de-9f5c-d4ac01cc929e</tstamps>
+    </comp>
+    <comp ref="SW3">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9b606573-d4ee-4a2e-998f-bc97d9c01db6</tstamps>
+    </comp>
+    <comp ref="SW4">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>89705be6-07dd-46af-8d28-1f0c8c9fb0c6</tstamps>
+    </comp>
+    <comp ref="SW5">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7a1c6cd1-898c-493a-a108-526abd7c0cbc</tstamps>
+    </comp>
+    <comp ref="SW6">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1b6e0791-4aed-4321-8dc8-df66b48bdcc2</tstamps>
+    </comp>
+    <comp ref="SW7">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>02ddc710-e228-4c45-bc3b-4e4c6f29e138</tstamps>
+    </comp>
+    <comp ref="SW8">
+      <value>B3F-405X</value>
+      <footprint>DoomWSTK:B3F-405X</footprint>
+      <datasheet>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="B3F-405X" description="Pushbutton 12 mm"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Pushbutton 12 mm"/>
+      <property name="ki_keywords" value="switch normally-open pushbutton push-button"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5216cafa-f422-4556-8f7f-2d3434272248</tstamps>
+    </comp>
+    <comp ref="SW9">
+      <value>OS102011MA1QN1</value>
+      <footprint>DoomWSTK:OS102011MA1QN1</footprint>
+      <libsource lib="Switch" part="SW_SPDT" description="Switch, single pole double throw"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Switch, single pole double throw"/>
+      <property name="ki_keywords" value="switch single-pole double-throw spdt ON-ON"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e9698c71-7647-4d32-a908-b02346947600</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>W25Q64</value>
+      <footprint>DoomWSTK:ADAFRUIT_QSPI8_DIP</footprint>
+      <datasheet>http://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf</datasheet>
+      <libsource lib="Memory_Flash" part="W25Q128JVS" description="128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"/>
+      <property name="ki_keywords" value="flash memory SPI QPI DTR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d827085c-7420-4f18-868a-50ab523e6fb8</tstamps>
+    </comp>
+    <comp ref="U2">
+      <value>W25Q64</value>
+      <footprint>DoomWSTK:ADAFRUIT_QSPI8_DIP</footprint>
+      <datasheet>http://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf</datasheet>
+      <libsource lib="Memory_Flash" part="W25Q128JVS" description="128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"/>
+      <property name="ki_keywords" value="flash memory SPI QPI DTR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>75c9f334-c697-40a2-a403-dec1a2e95119</tstamps>
+    </comp>
+    <comp ref="U3">
+      <value>TLV4112</value>
+      <footprint>Package_DIP:DIP-8_W7.62mm</footprint>
+      <datasheet>https://www.ti.com/lit/ds/slos289e/slos289e.pdf</datasheet>
+      <libsource lib="Amplifier_Operational" part="LM358" description="Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8"/>
+      <property name="ki_keywords" value="dual opamp"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c48bbcd0-b25a-4fb9-997d-21d95abf4716 e33a0237-e535-430f-9416-d2c70dd69efd 68a1f8f0-921d-4ece-af92-fb10db41ffe8</tstamps>
+    </comp>
+    <comp ref="U4">
+      <value>Sparkfun_Thing_Plus_Matter_MGM240P</value>
+      <footprint>DoomWSTK:SparkfunThingsPlusMatter</footprint>
+      <datasheet>https://cdn.sparkfun.com/assets/0/f/8/4/9/Thing_Plus_MGM240P.pdf</datasheet>
+      <libsource lib="DoomWSTK" part="Sparkfun_Thing_Plus_Matter_MGM240P" description="Microcontroller module with SAMD21 Cortex-M0 MCU and SPI Flash"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Microcontroller module with SAMD21 Cortex-M0 MCU and SPI Flash"/>
+      <property name="ki_keywords" value="Adafruit feather microcontroller module USB SPI Flash CircuitPython"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b4c2309e-cd72-422a-be75-9acc779d268b</tstamps>
+    </comp>
+    <comp ref="U5">
+      <value>74HC165</value>
+      <footprint>Package_DIP:DIP-16_W7.62mm</footprint>
+      <datasheet>https://assets.nexperia.com/documents/data-sheet/74HC_HCT165.pdf</datasheet>
+      <libsource lib="74xx" part="74HC165" description="Shift Register, 8-bit, Parallel Load"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="SparkDoom.kicad_sch"/>
+      <property name="ki_description" value="Shift Register, 8-bit, Parallel Load"/>
+      <property name="ki_keywords" value="8 bit shift register parallel load cmos"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1632c88e-e7c0-4188-81d5-9912e2c5195e</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="74xx" part="74HC165">
+      <description>Shift Register, 8-bit, Parallel Load</description>
+      <docs>https://assets.nexperia.com/documents/data-sheet/74HC_HCT165.pdf</docs>
+      <footprints>
+        <fp>DIP?16*</fp>
+        <fp>SO*16*3.9x9.9mm*P1.27mm*</fp>
+        <fp>SSOP*16*5.3x6.2mm*P0.65mm*</fp>
+        <fp>TSSOP*16*4.4x5mm*P0.65*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74HC165</field>
+        <field name="Datasheet">https://assets.nexperia.com/documents/data-sheet/74HC_HCT165.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~{PL}" type="input"/>
+        <pin num="2" name="CP" type="input"/>
+        <pin num="3" name="D4" type="input"/>
+        <pin num="4" name="D5" type="input"/>
+        <pin num="5" name="D6" type="input"/>
+        <pin num="6" name="D7" type="input"/>
+        <pin num="7" name="~{Q7}" type="output"/>
+        <pin num="8" name="GND" type="power_in"/>
+        <pin num="9" name="Q7" type="output"/>
+        <pin num="10" name="DS" type="input"/>
+        <pin num="11" name="D0" type="input"/>
+        <pin num="12" name="D1" type="input"/>
+        <pin num="13" name="D2" type="input"/>
+        <pin num="14" name="D3" type="input"/>
+        <pin num="15" name="~{CE}" type="input"/>
+        <pin num="16" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Amplifier_Operational" part="LM358">
+      <description>Low-Power, Dual Operational Amplifiers, DIP-8/SOIC-8/TO-99-8</description>
+      <docs>http://www.ti.com/lit/ds/symlink/lm2904-n.pdf</docs>
+      <footprints>
+        <fp>SOIC*3.9x4.9mm*P1.27mm*</fp>
+        <fp>DIP*W7.62mm*</fp>
+        <fp>TO*99*</fp>
+        <fp>OnSemi*Micro8*</fp>
+        <fp>TSSOP*3x3mm*P0.65mm*</fp>
+        <fp>TSSOP*4.4x3mm*P0.65mm*</fp>
+        <fp>MSOP*3x3mm*P0.65mm*</fp>
+        <fp>SSOP*3.9x4.9mm*P0.635mm*</fp>
+        <fp>LFCSP*2x2mm*P0.5mm*</fp>
+        <fp>*SIP*</fp>
+        <fp>SOIC*5.3x6.2mm*P1.27mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM358</field>
+        <field name="Datasheet">http://www.ti.com/lit/ds/symlink/lm2904-n.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="output"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="+" type="input"/>
+        <pin num="4" name="V-" type="power_in"/>
+        <pin num="5" name="+" type="input"/>
+        <pin num="6" name="-" type="input"/>
+        <pin num="7" name="" type="output"/>
+        <pin num="8" name="V+" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector" part="Conn_01x02_Pin">
+      <description>Generic connector, single row, 01x02, script generated</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02_Pin</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C">
+      <description>Unpolarized capacitor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C_Polarized">
+      <description>Polarized capacitor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>CP_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Polarized</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R_Network08">
+      <description>8 resistor network, star topology, bussed resistors, small symbol</description>
+      <docs>http://www.vishay.com/docs/31509/csc.pdf</docs>
+      <footprints>
+        <fp>R?Array?SIP*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">RN</field>
+        <field name="Value">R_Network08</field>
+        <field name="Footprint">Resistor_THT:R_Array_SIP9</field>
+        <field name="Datasheet">http://www.vishay.com/docs/31509/csc.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="common" type="passive"/>
+        <pin num="2" name="R1" type="passive"/>
+        <pin num="3" name="R2" type="passive"/>
+        <pin num="4" name="R3" type="passive"/>
+        <pin num="5" name="R4" type="passive"/>
+        <pin num="6" name="R5" type="passive"/>
+        <pin num="7" name="R6" type="passive"/>
+        <pin num="8" name="R7" type="passive"/>
+        <pin num="9" name="R8" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Speaker">
+      <description>Speaker</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">LS</field>
+        <field name="Value">Speaker</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="input"/>
+        <pin num="2" name="2" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="DoomWSTK" part="Adafruit4311">
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">Adafruit4311</field>
+      </fields>
+      <pins>
+        <pin num="1" name="BACKLIGHT" type="input"/>
+        <pin num="2" name="SD_nCS" type="input"/>
+        <pin num="3" name="D/C" type="input"/>
+        <pin num="4" name="nRESET" type="input"/>
+        <pin num="5" name="DISP_nCS" type="input"/>
+        <pin num="6" name="MOSI" type="input"/>
+        <pin num="7" name="MISO" type="tri_state"/>
+        <pin num="8" name="SCK" type="input"/>
+        <pin num="9" name="GND" type="input"/>
+        <pin num="10" name="3V3" type="input"/>
+        <pin num="11" name="VIN" type="input"/>
+        <pin num="12" name="S1" type="passive"/>
+        <pin num="13" name="S2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="DoomWSTK" part="B3F-405X">
+      <description>Pushbutton 12 mm</description>
+      <docs>https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</docs>
+      <footprints>
+        <fp>SW*MEC*5G*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">B3F-405X</field>
+        <field name="Footprint">DoomWSTK:B3F-405X</field>
+        <field name="Datasheet">https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="K" type="passive"/>
+        <pin num="4" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="DoomWSTK" part="Sparkfun_Thing_Plus_Matter_MGM240P">
+      <description>Microcontroller module with SAMD21 Cortex-M0 MCU and SPI Flash</description>
+      <docs>https://cdn.sparkfun.com/assets/0/f/8/4/9/Thing_Plus_MGM240P.pdf</docs>
+      <footprints>
+        <fp>Adafruit*Feather*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">Sparkfun_Thing_Plus_Matter_MGM240P</field>
+        <field name="Footprint">DoomWSTK:SparkfunThingsPlusMatter</field>
+        <field name="Datasheet">https://cdn.sparkfun.com/assets/0/f/8/4/9/Thing_Plus_MGM240P.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~{RESET}" type="input"/>
+        <pin num="2" name="3V3" type="power_in"/>
+        <pin num="3" name="NC" type="no_connect"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="D3" type="bidirectional"/>
+        <pin num="6" name="D2" type="bidirectional"/>
+        <pin num="7" name="D1" type="bidirectional"/>
+        <pin num="8" name="D0" type="bidirectional"/>
+        <pin num="9" name="C0" type="bidirectional"/>
+        <pin num="10" name="C1" type="bidirectional"/>
+        <pin num="11" name="C2/SCK" type="bidirectional"/>
+        <pin num="12" name="C3/MOSI" type="bidirectional"/>
+        <pin num="13" name="C6/MISO" type="bidirectional"/>
+        <pin num="14" name="A6/RX" type="bidirectional"/>
+        <pin num="15" name="A5/TX" type="bidirectional"/>
+        <pin num="16" name="C7/FREE" type="bidirectional"/>
+        <pin num="17" name="SDA/B4" type="bidirectional"/>
+        <pin num="18" name="SCL/B3" type="bidirectional"/>
+        <pin num="19" name="B2" type="bidirectional"/>
+        <pin num="20" name="B1" type="bidirectional"/>
+        <pin num="21" name="B0" type="bidirectional"/>
+        <pin num="22" name="A0" type="bidirectional"/>
+        <pin num="23" name="A4" type="bidirectional"/>
+        <pin num="24" name="C4" type="bidirectional"/>
+        <pin num="25" name="C5" type="bidirectional"/>
+        <pin num="26" name="USB" type="power_in"/>
+        <pin num="27" name="EN" type="input"/>
+        <pin num="28" name="VBAT" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Memory_Flash" part="W25Q128JVS">
+      <description>128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8</description>
+      <docs>http://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf</docs>
+      <footprints>
+        <fp>SOIC*5.23x5.23mm*P1.27mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">W25Q128JVS</field>
+        <field name="Footprint">Package_SO:SOIC-8_5.23x5.23mm_P1.27mm</field>
+        <field name="Datasheet">http://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~{CS}" type="input"/>
+        <pin num="2" name="DO(IO1)" type="bidirectional"/>
+        <pin num="3" name="IO2" type="bidirectional"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="DI(IO0)" type="bidirectional"/>
+        <pin num="6" name="CLK" type="input"/>
+        <pin num="7" name="IO3" type="bidirectional"/>
+        <pin num="8" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="SJ1-3525NG" part="SJ1-3525NG">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">SJ1-3525NG</field>
+        <field name="Footprint">CUI_SJ1-3525NG</field>
+        <field name="STANDARD">Manufacturer recommendation</field>
+        <field name="PARTREV">1.01</field>
+        <field name="MANUFACTURER">CUI</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+        <pin num="3" name="" type="passive"/>
+        <pin num="4" name="" type="passive"/>
+        <pin num="5" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_SPDT">
+      <description>Switch, single pole double throw</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_SPDT</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="B" type="passive"/>
+        <pin num="3" name="C" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="74xx">
+      <uri>C:\Program Files\KiCad\7.0\share\kicad\symbols\/74xx.kicad_sym</uri>
+    </library>
+    <library logical="Amplifier_Operational">
+      <uri>C:\Program Files\KiCad\7.0\share\kicad\symbols\/Amplifier_Operational.kicad_sym</uri>
+    </library>
+    <library logical="Connector">
+      <uri>C:\Program Files\KiCad\7.0\share\kicad\symbols\/Connector.kicad_sym</uri>
+    </library>
+    <library logical="Device">
+      <uri>C:\Program Files\KiCad\7.0\share\kicad\symbols\/Device.kicad_sym</uri>
+    </library>
+    <library logical="DoomWSTK">
+      <uri>C:\Users\niwrachi\SimplicityStudio\v5_workspace\GitHub\MG24Doom\Hardware\SparkDoom/DoomWSTK.kicad_sym</uri>
+    </library>
+    <library logical="Memory_Flash">
+      <uri>C:\Program Files\KiCad\7.0\share\kicad\symbols\/Memory_Flash.kicad_sym</uri>
+    </library>
+    <library logical="SJ1-3525NG">
+      <uri>C:\Users\niwrachi\SimplicityStudio\v5_workspace\GitHub\MG24Doom\Hardware\SparkDoom/SJ1-3525NG.lib</uri>
+    </library>
+    <library logical="Switch">
+      <uri>C:\Program Files\KiCad\7.0\share\kicad\symbols\/Switch.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="+3V3">
+      <node ref="C1" pin="1" pintype="passive"/>
+      <node ref="C11" pin="1" pintype="passive"/>
+      <node ref="C12" pin="1" pintype="passive"/>
+      <node ref="C14" pin="1" pintype="passive"/>
+      <node ref="C2" pin="1" pintype="passive"/>
+      <node ref="C8" pin="1" pintype="passive"/>
+      <node ref="C9" pin="1" pintype="passive"/>
+      <node ref="DISP1" pin="1" pinfunction="BACKLIGHT" pintype="input"/>
+      <node ref="DISP1" pin="10" pinfunction="3V3" pintype="input"/>
+      <node ref="DISP1" pin="11" pinfunction="VIN" pintype="input"/>
+      <node ref="R11" pin="2" pintype="passive"/>
+      <node ref="R9" pin="2" pintype="passive"/>
+      <node ref="RN1" pin="1" pinfunction="common" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="IO2" pintype="bidirectional"/>
+      <node ref="U1" pin="7" pinfunction="IO3" pintype="bidirectional"/>
+      <node ref="U1" pin="8" pinfunction="VCC" pintype="power_in"/>
+      <node ref="U2" pin="3" pinfunction="IO2" pintype="bidirectional"/>
+      <node ref="U2" pin="7" pinfunction="IO3" pintype="bidirectional"/>
+      <node ref="U2" pin="8" pinfunction="VCC" pintype="power_in"/>
+      <node ref="U3" pin="8" pinfunction="V+" pintype="power_in"/>
+      <node ref="U4" pin="2" pinfunction="3V3" pintype="power_in"/>
+      <node ref="U5" pin="10" pinfunction="DS" pintype="input"/>
+      <node ref="U5" pin="16" pinfunction="VCC" pintype="power_in"/>
+    </net>
+    <net code="2" name="/DISPLAY_DC">
+      <node ref="DISP1" pin="3" pinfunction="D/C" pintype="input"/>
+      <node ref="U4" pin="16" pinfunction="C7/FREE" pintype="bidirectional"/>
+    </net>
+    <net code="3" name="/DISP_MOSI">
+      <node ref="DISP1" pin="6" pinfunction="MOSI" pintype="input"/>
+      <node ref="U4" pin="12" pinfunction="C3/MOSI" pintype="bidirectional"/>
+    </net>
+    <net code="4" name="/DISP_SCK">
+      <node ref="DISP1" pin="8" pinfunction="SCK" pintype="input"/>
+      <node ref="U4" pin="11" pinfunction="C2/SCK" pintype="bidirectional"/>
+    </net>
+    <net code="5" name="/DISP_nCS">
+      <node ref="DISP1" pin="5" pinfunction="DISP_nCS" pintype="input"/>
+      <node ref="U4" pin="9" pinfunction="C0" pintype="bidirectional"/>
+    </net>
+    <net code="6" name="/FLASH_NCS">
+      <node ref="U1" pin="1" pinfunction="~{CS}" pintype="input"/>
+      <node ref="U2" pin="1" pinfunction="~{CS}" pintype="input"/>
+      <node ref="U4" pin="22" pinfunction="A0" pintype="bidirectional"/>
+      <node ref="U5" pin="1" pinfunction="~{PL}" pintype="input"/>
+    </net>
+    <net code="7" name="/K0">
+      <node ref="RN1" pin="2" pinfunction="R1" pintype="passive"/>
+      <node ref="SW3" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="11" pinfunction="D0" pintype="input"/>
+    </net>
+    <net code="8" name="/K1">
+      <node ref="RN1" pin="4" pinfunction="R3" pintype="passive"/>
+      <node ref="SW8" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="12" pinfunction="D1" pintype="input"/>
+    </net>
+    <net code="9" name="/K2">
+      <node ref="RN1" pin="6" pinfunction="R5" pintype="passive"/>
+      <node ref="SW4" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="13" pinfunction="D2" pintype="input"/>
+    </net>
+    <net code="10" name="/K3">
+      <node ref="RN1" pin="9" pinfunction="R8" pintype="passive"/>
+      <node ref="SW1" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="14" pinfunction="D3" pintype="input"/>
+    </net>
+    <net code="11" name="/K4">
+      <node ref="RN1" pin="8" pinfunction="R7" pintype="passive"/>
+      <node ref="SW2" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="3" pinfunction="D4" pintype="input"/>
+    </net>
+    <net code="12" name="/K5">
+      <node ref="RN1" pin="7" pinfunction="R6" pintype="passive"/>
+      <node ref="SW7" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="4" pinfunction="D5" pintype="input"/>
+    </net>
+    <net code="13" name="/K6">
+      <node ref="RN1" pin="5" pinfunction="R4" pintype="passive"/>
+      <node ref="SW5" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="5" pinfunction="D6" pintype="input"/>
+    </net>
+    <net code="14" name="/K7">
+      <node ref="RN1" pin="3" pinfunction="R2" pintype="passive"/>
+      <node ref="SW6" pin="4" pinfunction="A" pintype="passive"/>
+      <node ref="U5" pin="6" pinfunction="D7" pintype="input"/>
+    </net>
+    <net code="15" name="/LEFT">
+      <node ref="C6" pin="1" pintype="passive"/>
+      <node ref="U4" pin="5" pinfunction="D3" pintype="bidirectional"/>
+    </net>
+    <net code="16" name="/MISO_0">
+      <node ref="U1" pin="2" pinfunction="DO(IO1)" pintype="bidirectional"/>
+      <node ref="U4" pin="19" pinfunction="B2" pintype="bidirectional"/>
+    </net>
+    <net code="17" name="/MISO_1">
+      <node ref="U2" pin="2" pinfunction="DO(IO1)" pintype="bidirectional"/>
+      <node ref="U4" pin="23" pinfunction="A4" pintype="bidirectional"/>
+    </net>
+    <net code="18" name="/MOSI_0">
+      <node ref="U1" pin="5" pinfunction="DI(IO0)" pintype="bidirectional"/>
+      <node ref="U4" pin="21" pinfunction="B0" pintype="bidirectional"/>
+    </net>
+    <net code="19" name="/MOSI_1">
+      <node ref="U2" pin="5" pinfunction="DI(IO0)" pintype="bidirectional"/>
+      <node ref="U4" pin="25" pinfunction="C5" pintype="bidirectional"/>
+    </net>
+    <net code="20" name="/RIGHT">
+      <node ref="C5" pin="1" pintype="passive"/>
+      <node ref="U4" pin="6" pinfunction="D2" pintype="bidirectional"/>
+    </net>
+    <net code="21" name="/SCK_0">
+      <node ref="U1" pin="6" pinfunction="CLK" pintype="input"/>
+      <node ref="U4" pin="20" pinfunction="B1" pintype="bidirectional"/>
+    </net>
+    <net code="22" name="/SCK_1">
+      <node ref="U2" pin="6" pinfunction="CLK" pintype="input"/>
+      <node ref="U4" pin="24" pinfunction="C4" pintype="bidirectional"/>
+    </net>
+    <net code="23" name="/SD_MISO">
+      <node ref="DISP1" pin="7" pinfunction="MISO" pintype="tri_state"/>
+      <node ref="U4" pin="13" pinfunction="C6/MISO" pintype="bidirectional"/>
+    </net>
+    <net code="24" name="/SD_NCS">
+      <node ref="DISP1" pin="2" pinfunction="SD_nCS" pintype="input"/>
+      <node ref="U4" pin="10" pinfunction="C1" pintype="bidirectional"/>
+    </net>
+    <net code="25" name="/SR_CK">
+      <node ref="U4" pin="8" pinfunction="D0" pintype="bidirectional"/>
+      <node ref="U5" pin="2" pinfunction="CP" pintype="input"/>
+    </net>
+    <net code="26" name="/SR_D">
+      <node ref="U4" pin="7" pinfunction="D1" pintype="bidirectional"/>
+      <node ref="U5" pin="9" pinfunction="Q7" pintype="output"/>
+    </net>
+    <net code="27" name="GND">
+      <node ref="C1" pin="2" pintype="passive"/>
+      <node ref="C10" pin="2" pintype="passive"/>
+      <node ref="C11" pin="2" pintype="passive"/>
+      <node ref="C12" pin="2" pintype="passive"/>
+      <node ref="C14" pin="2" pintype="passive"/>
+      <node ref="C2" pin="2" pintype="passive"/>
+      <node ref="C3" pin="2" pintype="passive"/>
+      <node ref="C4" pin="2" pintype="passive"/>
+      <node ref="C7" pin="2" pintype="passive"/>
+      <node ref="C8" pin="2" pintype="passive"/>
+      <node ref="C9" pin="2" pintype="passive"/>
+      <node ref="DISP1" pin="12" pinfunction="S1" pintype="passive"/>
+      <node ref="DISP1" pin="13" pinfunction="S2" pintype="passive"/>
+      <node ref="DISP1" pin="9" pinfunction="GND" pintype="input"/>
+      <node ref="J3" pin="1" pintype="passive"/>
+      <node ref="R8" pin="1" pintype="passive"/>
+      <node ref="SW1" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW2" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW3" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW4" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW5" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW6" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW7" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW8" pin="1" pinfunction="1" pintype="passive"/>
+      <node ref="SW9" pin="3" pinfunction="C" pintype="passive"/>
+      <node ref="U1" pin="4" pinfunction="GND" pintype="power_in"/>
+      <node ref="U2" pin="4" pinfunction="GND" pintype="power_in"/>
+      <node ref="U3" pin="4" pinfunction="V-" pintype="power_in"/>
+      <node ref="U4" pin="4" pinfunction="GND" pintype="power_in"/>
+      <node ref="U5" pin="15" pinfunction="~{CE}" pintype="input"/>
+      <node ref="U5" pin="8" pinfunction="GND" pintype="power_in"/>
+    </net>
+    <net code="28" name="Net-(C4-Pad1)">
+      <node ref="C4" pin="1" pintype="passive"/>
+      <node ref="J3" pin="2" pintype="passive"/>
+      <node ref="R6" pin="2" pintype="passive"/>
+    </net>
+    <net code="29" name="Net-(C5-Pad2)">
+      <node ref="C5" pin="2" pintype="passive"/>
+      <node ref="R5" pin="1" pintype="passive"/>
+    </net>
+    <net code="30" name="Net-(C6-Pad2)">
+      <node ref="C6" pin="2" pintype="passive"/>
+      <node ref="R6" pin="1" pintype="passive"/>
+    </net>
+    <net code="31" name="Net-(C7-Pad1)">
+      <node ref="C7" pin="1" pintype="passive"/>
+      <node ref="J3" pin="3" pintype="passive"/>
+      <node ref="R5" pin="2" pintype="passive"/>
+    </net>
+    <net code="32" name="Net-(DISP1-nRESET)">
+      <node ref="C3" pin="1" pintype="passive"/>
+      <node ref="DISP1" pin="4" pinfunction="nRESET" pintype="input"/>
+      <node ref="R11" pin="1" pintype="passive"/>
+    </net>
+    <net code="33" name="Net-(J1-Pin_1)">
+      <node ref="C15" pin="2" pintype="passive"/>
+      <node ref="J1" pin="1" pinfunction="Pin_1" pintype="passive"/>
+      <node ref="R10" pin="2" pintype="passive"/>
+      <node ref="R4" pin="1" pintype="passive"/>
+      <node ref="U3" pin="1" pintype="output"/>
+    </net>
+    <net code="34" name="Net-(J1-Pin_2)">
+      <node ref="C13" pin="1" pintype="passive"/>
+      <node ref="J1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="R7" pin="1" pintype="passive"/>
+      <node ref="U3" pin="7" pintype="output"/>
+    </net>
+    <net code="35" name="Net-(J3-Pad4)">
+      <node ref="J3" pin="4" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+    </net>
+    <net code="36" name="Net-(J3-Pad5)">
+      <node ref="J3" pin="5" pintype="passive"/>
+      <node ref="R2" pin="1" pintype="passive"/>
+    </net>
+    <net code="37" name="Net-(SW9-B)">
+      <node ref="SW9" pin="2" pinfunction="B" pintype="passive"/>
+      <node ref="U4" pin="27" pinfunction="EN" pintype="input"/>
+    </net>
+    <net code="38" name="Net-(U3A-+)">
+      <node ref="C10" pin="1" pintype="passive"/>
+      <node ref="R8" pin="2" pintype="passive"/>
+      <node ref="R9" pin="1" pintype="passive"/>
+      <node ref="U3" pin="3" pinfunction="+" pintype="input"/>
+      <node ref="U3" pin="5" pinfunction="+" pintype="input"/>
+    </net>
+    <net code="39" name="Net-(U3A--)">
+      <node ref="C15" pin="1" pintype="passive"/>
+      <node ref="R2" pin="2" pintype="passive"/>
+      <node ref="R3" pin="2" pintype="passive"/>
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="U3" pin="2" pinfunction="-" pintype="input"/>
+    </net>
+    <net code="40" name="Net-(U3B--)">
+      <node ref="C13" pin="2" pintype="passive"/>
+      <node ref="R10" pin="1" pintype="passive"/>
+      <node ref="R7" pin="2" pintype="passive"/>
+      <node ref="U3" pin="6" pinfunction="-" pintype="input"/>
+    </net>
+    <net code="41" name="unconnected-(LS1-Pad1)">
+      <node ref="LS1" pin="1" pinfunction="1" pintype="input+no_connect"/>
+    </net>
+    <net code="42" name="unconnected-(LS1-Pad2)">
+      <node ref="LS1" pin="2" pinfunction="2" pintype="input+no_connect"/>
+    </net>
+    <net code="43" name="unconnected-(SW1-K-Pad3)">
+      <node ref="SW1" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="44" name="unconnected-(SW1-Pad2)">
+      <node ref="SW1" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="45" name="unconnected-(SW2-K-Pad3)">
+      <node ref="SW2" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="46" name="unconnected-(SW2-Pad2)">
+      <node ref="SW2" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="47" name="unconnected-(SW3-K-Pad3)">
+      <node ref="SW3" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="48" name="unconnected-(SW3-Pad2)">
+      <node ref="SW3" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="49" name="unconnected-(SW4-K-Pad3)">
+      <node ref="SW4" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="50" name="unconnected-(SW4-Pad2)">
+      <node ref="SW4" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="51" name="unconnected-(SW5-K-Pad3)">
+      <node ref="SW5" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="52" name="unconnected-(SW5-Pad2)">
+      <node ref="SW5" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="53" name="unconnected-(SW6-K-Pad3)">
+      <node ref="SW6" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="54" name="unconnected-(SW6-Pad2)">
+      <node ref="SW6" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="55" name="unconnected-(SW7-K-Pad3)">
+      <node ref="SW7" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="56" name="unconnected-(SW7-Pad2)">
+      <node ref="SW7" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="57" name="unconnected-(SW8-K-Pad3)">
+      <node ref="SW8" pin="3" pinfunction="K" pintype="passive"/>
+    </net>
+    <net code="58" name="unconnected-(SW8-Pad2)">
+      <node ref="SW8" pin="2" pinfunction="2" pintype="passive"/>
+    </net>
+    <net code="59" name="unconnected-(SW9-A-Pad1)">
+      <node ref="SW9" pin="1" pinfunction="A" pintype="passive+no_connect"/>
+    </net>
+    <net code="60" name="unconnected-(U4-A5{slash}TX-Pad15)">
+      <node ref="U4" pin="15" pinfunction="A5/TX" pintype="bidirectional"/>
+    </net>
+    <net code="61" name="unconnected-(U4-A6{slash}RX-Pad14)">
+      <node ref="U4" pin="14" pinfunction="A6/RX" pintype="bidirectional"/>
+    </net>
+    <net code="62" name="unconnected-(U4-NC-Pad3)">
+      <node ref="U4" pin="3" pinfunction="NC" pintype="no_connect"/>
+    </net>
+    <net code="63" name="unconnected-(U4-SCL{slash}B3-Pad18)">
+      <node ref="U4" pin="18" pinfunction="SCL/B3" pintype="bidirectional"/>
+    </net>
+    <net code="64" name="unconnected-(U4-SDA{slash}B4-Pad17)">
+      <node ref="U4" pin="17" pinfunction="SDA/B4" pintype="bidirectional"/>
+    </net>
+    <net code="65" name="unconnected-(U4-USB-Pad26)">
+      <node ref="U4" pin="26" pinfunction="USB" pintype="power_in+no_connect"/>
+    </net>
+    <net code="66" name="unconnected-(U4-VBAT-Pad28)">
+      <node ref="U4" pin="28" pinfunction="VBAT" pintype="power_in+no_connect"/>
+    </net>
+    <net code="67" name="unconnected-(U4-~{RESET}-Pad1)">
+      <node ref="U4" pin="1" pinfunction="~{RESET}" pintype="input+no_connect"/>
+    </net>
+    <net code="68" name="unconnected-(U5-~{Q7}-Pad7)">
+      <node ref="U5" pin="7" pinfunction="~{Q7}" pintype="output+no_connect"/>
+    </net>
+  </nets>
+</export>

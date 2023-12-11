@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<model:MDescriptors xmlns:model="http://www.silabs.com/ss/Studio.ecore">
+  <descriptors name="DoomMG24BLE">
+    <properties key="projectCommon.sdkId" value="com.silabs.sdk.stack.super:4.3.2._-905069214"/>
+    <properties key="universalConfig.generationDirectory" value=""/>
+    <properties key="universalConfig.toolchainCompatibility" value="iar gcc"/>
+    <properties key="projectCommon.boardIds" value="com.silabs.board.none:0.0.0"/>
+    <properties key="projectCommon.kitId" value=""/>
+    <properties key="projectCommon.partId" value="mcu.arm.efr32.mg24.mgm240pb32vna"/>
+    <properties key="projectCommon.toolchainId" value="com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt:10.2.1.20201103"/>
+    <properties key="universalConfig.projectTypeIds" value="com.silabs.ss.framework.ide.project.core.cdtMbsProjectType"/>
+    <properties key="projectCommon.importModeId" value="COPY"/>
+    <properties key="universalConfig.relativeWorkspacePath" value="..\DoomMG24BLE_2.slcw"/>
+    <properties key="universalConfig.previousSdkId" value="com.silabs.sdk.stack.super:4.3.0._-905069213"/>
+  </descriptors>
+</model:MDescriptors>
