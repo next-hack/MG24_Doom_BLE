@@ -60,7 +60,7 @@ char localPlayerName[MAX_HOST_NAME_LENGTH] = {'D','O','O','M','G','U','Y'};
 static char serverPlayerName[MAX_HOST_NAME_LENGTH];   // this is the server name. It is always player 0
 hostData_t * pHostData = NULL;
 static uint8_t mustStartGame = 0;
-uint8_t peripheral_connection_handle;
+uint8_t peripheral_connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
 multiplayerGameSettings_t hostMultiplayerGameSettings;
 static unsigned int checkNumber = 0;
 typedef struct
@@ -565,6 +565,10 @@ void bleCheckCommand(sl_bt_evt_gatt_server_attribute_value_t *v)
   }
 #endif
 }
+uint8_t bleGetAdvertisingSetHandle(void)
+{
+  return advertising_set_handle;
+}
 uint8_t bleGetPlayerData(uint8_t playerNumber, uint8_t *name, uint8_t *addr, uint8_t *handle)
 {
   uint8_t rv = BLE_PLAYER_NOT_CONNECTED;
@@ -639,6 +643,31 @@ void bleConnectionClose(uint32_t clientNumber)
   }
   bleDoomClients[clientNumber].connection_state = 0;
 }
+// FIXME for a bug in GSDK 4.3.2. Yes it's an horrible patch, and might induce other strange behaviors.
+#if !NO_GSDK_BUG_FIX
+#include "sl_bt_api.h"
+const uint8_t dummy_acl[109] = { [108] = SL_BT_INVALID_CONNECTION_HANDLE};
+void HardFault_Handler(void)
+{
+  // r0, r1, r2, r3, r12, lr, pc, and psr are saved.
+  __asm volatile
+  (
+      "MOV r1, SP\n\t"        // get stack pointer
+      "CMP r0, #0\n\t"        // is r0 equal to 0 ?
+      "other_fault:\n\t"      // no: then behave as normal hardfaul handler
+      "BNE other_fault\n\t"
+      "LDR r0, =dummy_acl_address\n\t"  // get the dummy ACL, which has invalid connection handle
+      "LDR r0, [r0]\n\t"                // now load the content
+      "STR r0, [r1]\n\t"                // and modify the value in the stack, so that when we exit this handler, there won't be nullpointer dereferencing.
+      "B exit_sp_change\n\t"
+      "dummy_acl_address:"
+      ".word dummy_acl\n\t"
+      "exit_sp_change:\n\t"
+      : :
+  );
+  printf("Hardfault. Trying to resume!\r\n");
+}
+#endif
 
 /**************************************************************************//**
  * Bluetooth stack event handler.
@@ -685,6 +714,34 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
       break;
     //
+/*    case sl_bt_evt_system_resource_exhausted_id:
+    {
+      uint32_t tb = -1, fb = -1;
+      sl_bt_resource_get_status(&tb, &fb);
+      printf("Resource Exhausted. Memory usage status: %d/%d. data: %d %d %d\r\n", fb,tb, evt->data.evt_system_resource_exhausted.num_buffer_allocation_failures,
+             evt->data.evt_system_resource_exhausted.num_buffers_discarded,
+             evt->data.evt_system_resource_exhausted.num_heap_allocation_failures);
+    }
+    break;*/
+    case sl_bt_evt_connection_remote_used_features_id:
+    {
+      uint32_t tb = -1, fb = -1;
+      sl_bt_resource_get_status(&tb, &fb);
+      printf("Memory usage status: %d/%d\r\n", fb,tb);
+    }
+  #if !NO_GSDK_BUG_FIX
+      printf("Remote Used Features conn handle %d, feature 0x%x\r\n", evt->data.evt_connection_remote_used_features.connection, evt->data.evt_connection_remote_used_features.features);
+      if (SL_BT_INVALID_CONNECTION_HANDLE == evt->data.evt_connection_remote_used_features.connection && gameMode == BLE_MODE_CLIENT)
+      {
+        printf("Invalid connection, trying to resume\r\n", evt->data.evt_connection_remote_used_features.connection, evt->data.evt_connection_remote_used_features.features);
+        for (int i = 0; i < SL_BT_CONFIG_MAX_CONNECTIONS; i++)
+          sl_bt_connection_forcefully_close(i);
+        bleStartScanningForHost();
+        sl_bt_advertiser_stop(advertising_set_handle);
+        sl_bt_legacy_advertiser_start(advertising_set_handle, sl_bt_advertiser_connectable_scannable);
+      }
+#endif
+      break;
     case sl_bt_evt_scanner_legacy_advertisement_report_id:
       if (BLE_MODE_HOST == gameMode)
       {
@@ -774,7 +831,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       {
         bleResetMustStartGame();
         clientStatus = BLE_CLIENT_DISCONNECTED;
-        peripheral_connection_handle = 0;
+        peripheral_connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
       }
       printf("Close %d, reason: %d (0x%x), nc %d, ccs: %d\r\n",
              evt->data.evt_connection_closed.connection,
@@ -813,9 +870,30 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       break;
   }
 }
+void bleUpdateEvents(void)
+{
+  sl_bt_msg_t evt;
+  while (1)
+  {
+    sl_bt_run();
+    uint32_t event_len = sl_bt_event_pending_len();
+    // For preventing from data loss, the event will be kept in the stack's queue
+    // if application cannot process it at the moment.
+    if ((event_len == 0) || (!sl_bt_can_process_event(event_len))) {
+      return;
+    }
+
+    // Pop (non-blocking) a Bluetooth stack event from event queue.
+    sl_status_t status = sl_bt_pop_event(&evt);
+    if(status != SL_STATUS_OK){
+      return;
+    }
+    sl_bt_process_event(&evt);
+  }
+}
 void bleStartScanningForClients(uint32_t gameRndId)
 {
-  printf("start ng for clients\r\n");
+  printf("start looking for clients\r\n");
   gameMode = BLE_MODE_HOST;
   rndId = gameRndId;
   sl_bt_scanner_stop();
@@ -853,8 +931,7 @@ void bleUpdateAdvertisingData(uint8_t mode, multiplayerGameSettings_t *settings)
 {
   gameMode = mode;
   printf("Starting advertising\r\n");
-  sl_bt_advertiser_stop(advertising_set_handle);//tart(advertising_set_handle, sl_bt_advertiser_connectable_scannable);
-  delay(100);
+  sl_bt_advertiser_stop(advertising_set_handle);
   if (BLE_MODE_HOST == mode)
   {
     memcpy (&hostMultiplayerGameSettings, settings, sizeof(multiplayerGameSettings_t));
@@ -943,9 +1020,6 @@ void bleUpdateAdvertisingData(uint8_t mode, multiplayerGameSettings_t *settings)
     scanRsp.mfgId = 0x2FFF; // Silicon Labs
 
     memcpy(&scanRsp.clientName, cn, sizeof(scanRsp.clientName));
-
-
-
     sc = sl_bt_legacy_advertiser_set_data(advertising_set_handle, sl_bt_advertiser_scan_response_packet,
                                                  sizeof (scanRsp),
                                                  (uint8_t*) &scanRsp);
@@ -953,7 +1027,6 @@ void bleUpdateAdvertisingData(uint8_t mode, multiplayerGameSettings_t *settings)
 
     app_assert_status(sc);
     sc = sl_bt_legacy_advertiser_start(advertising_set_handle, sl_bt_advertiser_connectable_scannable);
-    delay(100);      // FIXME: there seems to be a race
     app_assert_status(sc);
 
   }

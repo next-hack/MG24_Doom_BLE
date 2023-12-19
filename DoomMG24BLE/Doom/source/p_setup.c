@@ -839,12 +839,13 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 {
 
     (void) playermask;      // why was it used ?
-    static uint8_t oldSkill = -1;
+    static int8_t oldSkill = -1;
     //
-    cachedColumnOffsetDataPatch = NULL;
+    static boolean oldNetGame = 0;
     // every boot, we need to refresh level data, to be sure that corrupted data
     // due to  resets or power down wont screw up everything.
     static boolean levelDataAlreadyInitialized = false;
+    cachedColumnOffsetDataPatch = NULL;
     char lumpname[9];
     int lumpnum;
     printf("Setup level\r\n");
@@ -871,6 +872,14 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     // let's check if we are changing level
     boolean differentLevel = false;
+    // next-hack: netgame has different number of things, which might corrupt
+    // some cached data. Therefore every time we switch from/to netgame to/from
+    // single player, we are forcing refresh.
+    if (_g->netgame != oldNetGame)
+    {
+      oldNetGame = _g->netgame;
+      differentLevel = true;
+    }
     if (levelDataAlreadyInitialized) // && (uint32_t) p_wad_immutable_flash_data->levelData > (uint32_t) p_wad_immutable_flash_data && p_wad_immutable_flash_data->levelData < FLASH_SIZE)
     {
         if (p_wad_level_flash_data->map != map || p_wad_level_flash_data->episode != episode || false == levelDataAlreadyInitialized || oldSkill != skill)
@@ -949,7 +958,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     // line in ram
     printf("P_GroupLines\r\n");
     P_GroupLines();
-    // next-hack now _g->sectors can be saved in flash and the coresponding RAM buffer can be freed
+    // next-hack now _g->sectors can be saved in flash and the corresponding RAM buffer can be freed
     sector_t *p = _g->sectors;
     _g->sectors = writeBufferToFlashRegion(_g->sectors, _g->numsectors * sizeof(sector_t), FLASH_LEVEL_REGION, true);
     // free sector temporary buffer
@@ -1018,7 +1027,6 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     {
         lprintf(LO_INFO, "P_InitPicAnims");
         P_InitPicAnims();
-
         // now cache sky
         // DOOM determines the sky texture to be used
         // depending on the current episode, and the game version.

@@ -104,6 +104,7 @@ void NetUpdate(void)
     return;
   DWT->CYCCNT = 0;
   sl_system_process_action();
+
   // Build tics for local player
   D_BuildNewTiccmds();
   //
@@ -222,6 +223,10 @@ void NetUpdate(void)
        }
        bleUpdateTicsToServer(ticNumber);   // tell our current state.
      }
+  }
+  else
+  { // we can't affort to just process only one message during scanning. So we use this api instead.
+    bleUpdateEvents();
   }
 }
 #endif

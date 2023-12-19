@@ -758,7 +758,7 @@ void* getAddressOrCacheLumpNum(int lump, boolean storeInFlash, uint8_t flashRegi
     void *address;
     if (storeInFlash)
     {
-        printf("Storing in flash\r\n");
+        printf("Storing lump %d in flash\r\n", lump);
         address = writeLumpToFlashRegion(lump, flashRegion, true);
     }
     else

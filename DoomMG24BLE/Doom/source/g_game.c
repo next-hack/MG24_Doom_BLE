@@ -1308,7 +1308,7 @@ void G_LoadSettings()
         {
           valid = false;
         }
-        for (int i = 1; i < sizeof(localPlayerName) && valid; i++)
+        for (unsigned int i = 1; i < sizeof(localPlayerName) && valid; i++)
         {
           char c = localPlayerName[i];
           if (0 == c) // null terminator admissible from char 1

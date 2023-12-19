@@ -140,7 +140,6 @@ void* I_ZoneBase(int *size)
 //
 void Z_Init(void)
 {
-    printf("Z-Zone size: %d bytes\r\n", MAX_STATIC_ZONE);
     memblock_t *block;
     int size;
 

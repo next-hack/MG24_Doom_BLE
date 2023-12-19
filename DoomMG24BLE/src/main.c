@@ -88,6 +88,7 @@ extern uint8_t staticZone[];
  *****************************************************************************/
 int main(void)
 {
+  Z_Init();
   // Initialize Silicon Labs device, system, service(s) and protocol stack(s).
   // Note that if the kernel is present, processing task(s) will be created by
   // this call.
@@ -280,7 +281,6 @@ int main(void)
       delay(2000);
       NVIC_SystemReset();
   }
-  Z_Init();
   InitGlobals();
   //
   #if HAS_NETWORK
@@ -292,7 +292,6 @@ int main(void)
   //
   D_DoomMain();
 }
-
 // -----------------------------------------------------------------------------
 //                          Static Function Definitions
 // -----------------------------------------------------------------------------

@@ -44,9 +44,9 @@ The code is based on doomhack's GBA Doom Port (https://github.com/doomhack/GBADo
 - Need to be seriously debugged and cleaned up.
 
 **Known issues**
-- Multiplayer is unstable in very crowded RF environments, i.e. joining might be difficult and 4-player game sometimes might be slow (from our tests, 3 player game is always fast, going at 30 fps).
-- There is a GSDK bug for which in some cases the "join host" might generate an hardfault, in noisy environments. This is not due to Doom code, and it will be fixed in the GSDK release after 4.3.2. 
+- Multiplayer might be unstable in very crowded RF environments, i.e. joining might be difficult and 4-player game sometimes might be slow (from our tests, 3 player game is always fast, going at 30 fps).
 - The display controller is driven via SPI and there is no with no vertical sync, so you can spot some artifacts due to sending new frame data, while the display is still refreshing the old frame.
+- Only GSDK 4.3.2 is supported for now, with 10.2.1 GCC toolchain.
 
 ## Controls:
 **Strafe:** alt + Left-Right
