@@ -43,10 +43,10 @@
   #define app_assert_status(c) (void)c
 #endif
 #define SCAN_INTERVAL                   1000
-#define MIN_ADV_INTERVAL_HOST           80
-#define MAX_ADV_INTERVAL_HOST           90
-#define MIN_ADV_INTERVAL_CLIENT         90
-#define MAX_ADV_INTERVAL_CLIENT         100
+#define MIN_ADV_INTERVAL_HOST           32
+#define MAX_ADV_INTERVAL_HOST           40
+#define MIN_ADV_INTERVAL_CLIENT         32
+#define MAX_ADV_INTERVAL_CLIENT         40
 #define MAX_CONNECTION_TIME             4000000U
 #define SUPERVISOR_TIMEOUT              400     // time = SUPERVISOR_TIMEOUT x 10ms
 #define MIN_CONN_INTERVAL               6  //
@@ -776,7 +776,12 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         clientStatus = BLE_CLIENT_DISCONNECTED;
         peripheral_connection_handle = 0;
       }
-      printf("Close %d, nc %d, ccs: %d\r\n", evt->data.evt_connection_closed.connection, bleCountClients(), clientConnectionState);
+      printf("Close %d, reason: %d (0x%x), nc %d, ccs: %d\r\n",
+             evt->data.evt_connection_closed.connection,
+             evt->data.evt_connection_closed.reason,
+             evt->data.evt_connection_closed.reason,
+             bleCountClients(),
+             clientConnectionState);
       break;
 
     ///////////////////////////////////////////////////////////////////////////
