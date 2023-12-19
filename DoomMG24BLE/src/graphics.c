@@ -33,6 +33,9 @@
 #include <string.h>
 #include "em_ldma.h"
 #include "em_gpio.h"
+#if HAS_NETWORK
+  #include "doom_ble.h"
+#endif
 //
 #define  DISPLAY_LDMA_CTRL_REG_VALUE        LDMA_CH_CTRL_DSTMODE_ABSOLUTE |                                                           \
                                             LDMA_CH_CTRL_SRCMODE_ABSOLUTE |                                                           \
@@ -114,6 +117,9 @@ void startDisplayRefresh(uint8_t bufferNumber)
     // normal mode
     while (displayData.dmaBusy)
     {
+#if HAS_NETWORK
+      bleUpdateEvents();  // if a frame is rendered very quickly, let's spend the remaining time to process BLE events.
+#endif
     }
     while (! (USART0->STATUS & USART_STATUS_TXIDLE));  // it seems to me that there is some race condition if we are calling too frequently this function.
     SET_DISPLAY_MODE();

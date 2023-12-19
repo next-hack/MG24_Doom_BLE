@@ -6,3 +6,6 @@
 *.bak*
 /GNU ARM*/gecko_sdk*
 imported_project_report.html
+/.uceditor/*
+*.mk
+/GNU ARM*/autogen/*

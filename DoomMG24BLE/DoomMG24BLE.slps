@@ -10,7 +10,8 @@
     <properties key="projectCommon.toolchainId" value="com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt:10.2.1.20201103"/>
     <properties key="universalConfig.projectTypeIds" value="com.silabs.ss.framework.ide.project.core.cdtMbsProjectType"/>
     <properties key="projectCommon.importModeId" value="COPY"/>
-    <properties key="universalConfig.relativeWorkspacePath" value="..\DoomMG24BLE_2.slcw"/>
+    <properties key="universalConfig.relativeWorkspacePath" value="..\DoomMG24BLE_GSDK4v3v2.slcw"/>
     <properties key="universalConfig.previousSdkId" value="com.silabs.sdk.stack.super:4.3.0._-905069213"/>
+    <properties key="universalConfig.incrementalOverwriteConfigs" value="false"/>
   </descriptors>
 </model:MDescriptors>

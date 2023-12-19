@@ -131,6 +131,13 @@
 // [MODEM]$
 
 // $[CUSTOM_PIN_NAME]
+#ifndef _PORT                                   
+#define _PORT                                    gpioPortA
+#endif
+#ifndef _PIN                                    
+#define _PIN                                     0
+#endif
+
 // [CUSTOM_PIN_NAME]$
 
 #endif // PIN_CONFIG_H
