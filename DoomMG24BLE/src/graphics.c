@@ -34,6 +34,7 @@
 #include "em_ldma.h"
 #include "em_gpio.h"
 #if HAS_NETWORK
+#include "global_data.h"
   #include "doom_ble.h"
 #endif
 //
@@ -118,7 +119,8 @@ void startDisplayRefresh(uint8_t bufferNumber)
     while (displayData.dmaBusy)
     {
 #if HAS_NETWORK
-      bleUpdateEvents();  // if a frame is rendered very quickly, let's spend the remaining time to process BLE events.
+      if (_g->gameStarted)
+        bleUpdateEvents();  // if a frame is rendered very quickly, let's spend the remaining time to process BLE events.
 #endif
     }
     while (! (USART0->STATUS & USART_STATUS_TXIDLE));  // it seems to me that there is some race condition if we are calling too frequently this function.

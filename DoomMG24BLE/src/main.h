@@ -104,7 +104,6 @@
 // Audio timer used for PWM if required. Using Timer 1 because can be routed anywhere, unlike 2, 3, 4
 #define AUDIO_PWM_TIMER_NUMBER            1
 #define AUDIO_SAMPLE_TIMER_NUMBER         2
-#define BLE_TICK_TIMER_NUMBER             3     // to trigger IRQ to periodically handle BLE events.
 
 #define FIRST_SPI_NUMBER                  0
 #define SECOND_SPI_NUMBER                 1

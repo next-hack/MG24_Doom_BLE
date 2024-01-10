@@ -89,6 +89,7 @@ extern uint8_t staticZone[];
 int main(void)
 {
   Z_Init();
+  InitGlobals();
   // Initialize Silicon Labs device, system, service(s) and protocol stack(s).
   // Note that if the kernel is present, processing task(s) will be created by
   // this call.
@@ -281,7 +282,6 @@ int main(void)
       delay(2000);
       NVIC_SystemReset();
   }
-  InitGlobals();
   //
   #if HAS_NETWORK
   // Init BLE
