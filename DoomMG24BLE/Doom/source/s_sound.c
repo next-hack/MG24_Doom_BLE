@@ -78,6 +78,8 @@
 // when to clip out sounds
 // Does not fit the large outdoor areas.
 #define S_CLIPPING_DIST (1200<<FRACBITS)
+#define SOUND_ORIGIN_MOBJ       0
+#define SOUND_ORIGIN_NOT_MOBJ   1
 
 // Distance tp origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
@@ -108,9 +110,25 @@ typedef struct
 
 void S_StopChannel(int cnum);
 
-int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep);
+int S_AdjustSoundParams(mobj_t *listener, sound_mobj_t *source, int *vol, int *sep);
 
-static int S_getChannel(void *origin, const sfxinfo_t *sfxinfo, int is_pickup);
+static int S_getChannel(void *origin, const sfxinfo_t *sfxinfo, int is_pickup, int soundOrgType);
+
+static void fillTmpSoundMobj(sound_mobj_t *tmpSound, void *org, int soundType)
+{
+  if (soundType == SOUND_ORIGIN_MOBJ)
+  {
+    tmpSound->x = ((mobj_t*)org)->x;
+    tmpSound->y = ((mobj_t*)org)->y;
+  }
+  else
+  {
+    uint16_t * origin = org;
+    tmpSound->x = (origin[BOXRIGHT] << FRACBITS) / 2 + (origin[BOXLEFT] << FRACBITS) / 2;
+    tmpSound->y = (origin[BOXTOP] << FRACBITS) / 2 + (origin[BOXBOTTOM] << FRACBITS) / 2;
+  }
+}
+
 
 // Initializes sound stuff, including volume
 // Sets channels, SFX and music volume,
@@ -272,7 +290,7 @@ void S_Start(void)
     S_ChangeMusic(mnum, true);
 }
 
-void S_StartSoundAtVolume(sound_mobj_t *origin, int sfx_id, int volume)
+void S_StartSoundAtVolume(void *origin, int soundOrgType, int sfx_id, int volume)
 {
     int /*priority, */cnum, is_pickup;
     const sfxinfo_t *sfx;
@@ -318,12 +336,13 @@ void S_StartSoundAtVolume(sound_mobj_t *origin, int sfx_id, int volume)
     }
     else
     {
-        if (!S_AdjustSoundParams( _g->players[_g->displayplayer].mo, (mobj_t*) origin, &volume, &sep))
+        sound_mobj_t tmpMobj;
+        fillTmpSoundMobj( &tmpMobj,origin, soundOrgType); // note: the case that the origin is the display player is handled already above!
+        if (!S_AdjustSoundParams( _g->players[_g->displayplayer].mo,  &tmpMobj, &volume, &sep))
         {
             return;
         }
     }
-
     // kill old sound
     for (cnum = 0; cnum < numChannels; cnum++)
     {
@@ -335,7 +354,7 @@ void S_StartSoundAtVolume(sound_mobj_t *origin, int sfx_id, int volume)
         }
     }
     // try to find a channel
-    cnum = S_getChannel(origin, sfx, is_pickup);
+    cnum = S_getChannel(origin, sfx, is_pickup, soundOrgType);
 
     if (cnum < 0)
     {
@@ -352,7 +371,7 @@ void S_StartSoundAtVolume(sound_mobj_t *origin, int sfx_id, int volume)
 
 void S_StartSound(mobj_t *origin, int sfx_id)
 {
-    S_StartSoundAtVolume((sound_mobj_t *)origin, sfx_id, _g->snd_SfxVolume);
+    S_StartSoundAtVolume((sound_mobj_t *)origin, SOUND_ORIGIN_MOBJ, sfx_id, _g->snd_SfxVolume);
 }
 #if USE_MSECNODE
 void S_StartSound2(degenmobj_t *origin, int sfx_id)
@@ -387,32 +406,8 @@ void S_StartSound2(degenmobj_t *origin, int sfx_id)
 #else
 void S_StartSound2(void *org, int sfx_id)
 {
-    uint16_t * origin = org;
-    //Look at this mess.
-
-    //Originally, the degenmobj_t had
-    //a thinker_t at the start of the struct
-    //so that it could be passed around and
-    //cast to a mobj_t* in the sound code
-    //for non-mobj sound makers like doors.
-
-    //This also meant that each and every sector_t
-    //struct has 24 bytes wasted. I can't afford
-    //to waste memory like that so we have a seperate
-    //function for these cases which cobbles toget a temp
-    //mobj_t-like struct to pass to the sound code.
-
-    sound_mobj_t tmpMobj;
-// next-hack: due to mobj_t member reordering, this stuff cannot be used. We can use a static_mobj_t instead,
-// which is smaller than a regular mobj_t
-    /*   struct fake_mobj
-     {
-     thinker_t ununsed;
-     degenmobj_t origin;
-     } fm;*/
-    tmpMobj.x = (origin[BOXRIGHT] << FRACBITS) / 2 + (origin[BOXLEFT] << FRACBITS) / 2;
-    tmpMobj.y = (origin[BOXTOP] << FRACBITS) / 2 + (origin[BOXBOTTOM] << FRACBITS) / 2;
-    S_StartSoundAtVolume((sound_mobj_t*) &tmpMobj, sfx_id, _g->snd_SfxVolume);
+  // next-hack: oooops, non-mobj effecrs were not working due to previous hack...
+    S_StartSoundAtVolume(org, SOUND_ORIGIN_NOT_MOBJ, sfx_id, _g->snd_SfxVolume);
 }
 #endif
 void S_StopSound(void *origin)
@@ -524,7 +519,10 @@ void S_UpdateSounds(void *listener_p)
                 // or modify their params
                 if (c->origin && listener_p != c->origin)
                 { // killough 3/20/98
-                    if (!S_AdjustSoundParams(listener, c->origin, &volume, &sep))
+                    sound_mobj_t tmpMobj;
+                    fillTmpSoundMobj( &tmpMobj, c->origin, c->soundOrgType); // note: the case that the origin is the listener is excluded
+
+                    if (!S_AdjustSoundParams(listener, &tmpMobj, &volume, &sep))
                       S_StopChannel(cnum);
                     else
                       I_UpdateSoundParams(cnum, volume, sep);
@@ -640,7 +638,7 @@ void S_StopChannel(int cnum)
 // Otherwise, modifies parameters and returns 1.
 //
 
-int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep)
+int S_AdjustSoundParams(mobj_t *listener, sound_mobj_t *source, int *vol, int *sep)
 {
     fixed_t adx, ady, approx_dist;
 
@@ -712,7 +710,7 @@ int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep)
 //
 // killough 4/25/98: made static, added is_pickup argument
 
-static int S_getChannel(void *origin, const sfxinfo_t *sfxinfo, int is_pickup)
+static int S_getChannel(void *origin, const sfxinfo_t *sfxinfo, int is_pickup, int soundOrgType)
 {
     // channel number to use
     int cnum;
@@ -748,6 +746,7 @@ static int S_getChannel(void *origin, const sfxinfo_t *sfxinfo, int is_pickup)
     c->sfxinfo = sfxinfo;
     c->origin = origin;
     c->is_pickup = is_pickup;         // killough 4/25/98
+    c->soundOrgType = soundOrgType;
     return cnum;
 }
 

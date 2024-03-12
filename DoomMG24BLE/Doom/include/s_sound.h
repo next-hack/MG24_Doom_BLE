@@ -116,7 +116,8 @@ typedef struct
     int tickend;
     void *origin;        // origin of sound
     short handle;          // handle of the sound being played
-    short is_pickup;     // killough 4/25/98: whether sound is a player's weapon
+    short is_pickup : 8;     // killough 4/25/98: whether sound is a player's weapon
+    short soundOrgType : 8;  // next-hack: to discriminate between mobjs or doors/etc
 } channel_t;
 
 #endif
