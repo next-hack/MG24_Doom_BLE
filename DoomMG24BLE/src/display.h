@@ -59,6 +59,7 @@ void EndUpdateDisplay(void);
 void SelectDisplay(void);
 void displayWriteData(uint8_t value);
 void initDisplaySpi();
+void displaySetNumberOfUpdateLines(uint8_t num);
 #ifdef __cplusplus
 }
 #endif

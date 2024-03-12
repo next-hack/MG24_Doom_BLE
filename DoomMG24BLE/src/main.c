@@ -134,8 +134,8 @@ int main(void)
   // measure refresh time!
   //
   uint32_t oldTime = TICK_TIMER->CNT;
-  startDisplayRefresh(0);
-  startDisplayRefresh(0);
+  startDisplayRefresh(0, SCREEN_HEIGHT);
+  startDisplayRefresh(0, SCREEN_HEIGHT);
   oldTime = TICK_TIMER->CNT - oldTime;
   displayPrintln(1, "Frame refresh time %d us!", oldTime / 10);
   displayPrintln(1, "Memzone size %d bytes.", getStaticZoneSize());

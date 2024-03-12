@@ -50,7 +50,7 @@
                                             LDMA_CH_CTRL_STRUCTTYPE_TRANSFER
 //
 #define LE2BE16(x) ((uint16_t)(((x >> 8) & 0xFF) | (x << 8)))
-#define RGB(r, g, b) (((r >> 3) << (6 + 5)) | ((g >> 2) << 5) | ((g >> 3) << (0)))
+#define RGB(r, g, b) (((r >> 3) << (6 + 5)) | ((g >> 2) << 5) | ((b >> 3) << (0)))
 //
 #define MAX_STRING_SIZE ( SCREEN_WIDTH / FONT_WIDTH + 1)
 //
@@ -92,7 +92,7 @@ void initGraphics()
     displayData.pPalette = (uint16_t * ) palette16;
     displayData.displayMode = dm_8bpp;
     displayData.displayDmaLineBuffersSent = NUMBER_OF_DMA_LINES + 1;
-    setDisplayPen(1,0);
+    setDisplayPen(1,2);
     // configure DMA
     USART0->CMD = USART_CMD_TXEN;
     LDMA->EN = LDMA_EN_EN;
@@ -108,12 +108,12 @@ void initGraphics()
     LDMA->DBGHALT_SET = (1 << DISPLAY_LDMA_CH);
     NVIC_SetPriority(LDMA_IRQn, 6);
     NVIC_EnableIRQ(LDMA_IRQn);
-    memset(displayData.displayFrameBuffer[0], 3, sizeof(displayData.displayFrameBuffer[0]));
+    memset(displayData.displayFrameBuffer[0], 0, sizeof(displayData.displayFrameBuffer[0]));
 
 }
 #if 1
 //
-void startDisplayRefresh(uint8_t bufferNumber)
+void startDisplayRefresh(uint8_t bufferNumber, int rowsToUpdate)
 {
     // normal mode
     while (displayData.dmaBusy)
@@ -124,6 +124,14 @@ void startDisplayRefresh(uint8_t bufferNumber)
 #endif
     }
     while (! (USART0->STATUS & USART_STATUS_TXIDLE));  // it seems to me that there is some race condition if we are calling too frequently this function.
+    //
+    //
+    if (displayData.rowsToUpdate != rowsToUpdate)
+    {
+      SET_DISPLAY_DIRECT_MODE();
+      displayData.rowsToUpdate = rowsToUpdate;
+      displaySetNumberOfUpdateLines(rowsToUpdate);
+    }
     SET_DISPLAY_MODE();
     DISPLAY_NCS_LOW();
     displayData.dmaBusy = 1;
@@ -248,7 +256,7 @@ void displayPrintln(bool update, const char *format, ...)
     va_end(va);
     if (update)
     {
-        startDisplayRefresh(displayData.workingBuffer);
+        startDisplayRefresh(displayData.workingBuffer, SCREEN_HEIGHT);
         while (displayData.dmaBusy);
     }
 }
@@ -293,7 +301,8 @@ void LDMA_IRQHandler(void)
   if (LDMA->IF & (1 << DISPLAY_LDMA_CH))
   {
     LDMA->IF_CLR = (1 << DISPLAY_LDMA_CH);
-    if (displayData.displayDmaLineBuffersSent <= NUMBER_OF_DMA_LINES)
+    int dmaLineNumber = displayData.rowsToUpdate * SCREEN_WIDTH / 256;
+    if (displayData.displayDmaLineBuffersSent <= dmaLineNumber)
     {
       LDMA->CHDONE_CLR = (1 << DISPLAY_LDMA_CH);
       LDMA->CH[DISPLAY_LDMA_CH].SRC = (uint32_t) displayData.displayDmaLineBuffer[1 - displayData.currentDisplayDmaLineBuffer];
@@ -311,6 +320,8 @@ void LDMA_IRQHandler(void)
     }
     else
     {
+      // set complete even in the case we only partially updated.
+      displayData.displayDmaLineBuffersSent = NUMBER_OF_DMA_LINES + 1;
       LDMA->CHDONE_CLR = (1 << DISPLAY_LDMA_CH);
       displayData.dmaBusy = 0;
       LDMA->CHDIS_SET = (1 << DISPLAY_LDMA_CH);

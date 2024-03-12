@@ -136,6 +136,25 @@ static void executeDisplayCommands(const uint8_t * cmds)
         }
     }
 }
+void displaySetNumberOfUpdateLines(uint8_t num)
+{
+  uint8_t set_display_draw_window[] =
+  {
+      ST77XX_RASET,
+      4,
+      0,
+      CENTER_SCREEN ? (ST7789_HEIGHT - SCREEN_HEIGHT) / 2 : 0,
+      0,
+      num - 1 + (CENTER_SCREEN ? (ST7789_HEIGHT - SCREEN_HEIGHT) / 2 : 0),
+      ST77XX_RAMWR,
+      0,
+      END_COMMAND_LIST
+  };
+  executeDisplayCommands(set_display_draw_window);
+  DISPLAY_DC_HIGH();
+  DISPLAY_NCS_LOW();
+
+}
 void displayInit(void)
 {
     // Display initialization.

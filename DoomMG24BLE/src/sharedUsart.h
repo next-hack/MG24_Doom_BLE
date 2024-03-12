@@ -38,7 +38,8 @@ extern "C" {
     // alternate modes
     SHARED_USART_MODE_VCOM = 2,
     SHARED_USART_MODE_SD_SLOW = 3,
-    SHARED_USART_MODE_SD_FAST = 4
+    SHARED_USART_MODE_SD_FAST = 4,
+    SHARED_USART_DISPLAY_DIRECT_MODE = 5,     // when need to update manually the config.
 
   } sharedUsartMode_t;
   typedef enum
@@ -57,6 +58,7 @@ extern "C" {
 #define VCOM_USART                    EUSART0
 #define DISPLAY_USART                 USART0
 #define SET_DISPLAY_MODE()            sharedUsartModeSet(DISPLAY_USART, SHARED_USART_MODE_DEVICE)
+#define SET_DISPLAY_DIRECT_MODE()     sharedUsartModeSet(DISPLAY_USART, SHARED_USART_DISPLAY_DIRECT_MODE)
 #define SET_SD_MODE_FAST()            sharedUsartModeSet(DISPLAY_USART, SHARED_USART_MODE_SD_FAST)
 #define SET_SD_MODE_SLOW()            sharedUsartModeSet(DISPLAY_USART, SHARED_USART_MODE_SD_SLOW)
 #define SET_SD_MODE(mode)             sharedUsartModeSet(DISPLAY_USART, mode)

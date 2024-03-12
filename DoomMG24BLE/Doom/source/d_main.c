@@ -170,7 +170,7 @@ static void D_Wipe(void)
         done = wipe_ScreenWipe(tics, tmp_y_lookup);
 // 2021-08-08 next-hack: Due to memory constraint we cannot draw the menu over. Never mind.
 //        M_Drawer();                   // menu is drawn even on top of wipes
-      I_FinishUpdateBlock();              // page flip or blit buffer
+      I_FinishUpdateBlock(SCREEN_HEIGHT);              // page flip or blit buffer
       //  2021-08-08 next-hack: during wipes we use the two buffers, one contains the new scene, the other contains
        // the old one. As a result we cannot use double buffering, and we need to wait for DMA to finish update
       while (displayData.dmaBusy)
@@ -190,7 +190,7 @@ static void D_Display(void)
 {
     boolean wipe;
     boolean viewactive = false;
-
+    uint8_t rowsToUpdate = SCREEN_HEIGHT;
     if (nodrawers)                    // for comparative timing / profiling
         return;
 
@@ -246,7 +246,7 @@ static void D_Display(void)
         }
         HU_Drawer();
         draw_stopy = SCREENHEIGHT - 1;
-        ST_Drawer(true, false);	// status bar on, do not force refresh
+        rowsToUpdate = ST_Drawer(true, false);	// status bar on, do not force refresh
 
     }
 
@@ -267,7 +267,7 @@ static void D_Display(void)
     // normal update
     if (!wipe)
     {
-      I_FinishUpdateBlock();              // page flip or blit buffer
+      I_FinishUpdateBlock(rowsToUpdate);              // page flip or blit buffer
     }
     else
     {

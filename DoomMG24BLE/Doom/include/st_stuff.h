@@ -367,7 +367,7 @@ boolean ST_Responder(const event_t *ev);
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(boolean st_statusbaron, boolean refresh);
+uint8_t ST_Drawer(boolean st_statusbaron, boolean refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);

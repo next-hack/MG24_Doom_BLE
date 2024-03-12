@@ -6,6 +6,8 @@ The code is based on doomhack's GBA Doom Port (https://github.com/doomhack/GBADo
 
 **Warning!** After you import the project on Simplicity Studio, you must "force project generation", so that the Gecko SDK files are copied on it. This is to comply with Silabs' licensing system. See "Building, developing, etc." below.
 
+**12/03/2024 Update! Now peak 35 fps can be achieved also on 320 x 240 resolution thanks to partial screen refresh!**
+
 **Features**
 
 - Supports 320x200 and 320x240 resolution (the resolution can be changed at compile time)
@@ -27,7 +29,7 @@ The code is based on doomhack's GBA Doom Port (https://github.com/doomhack/GBADo
   - Monster on/off.
   - Item respawn on/off
   - Time and frag limits.
-  - Multiplayer over BLE.  
+  - Multiplayer over BLE.
   - Frame rate shown in the bottom-left corner (can be disabled with a compiler directive).
  - Additional features (with respect to vanilla Doom)
    - Player's weapon also is subjected to ambient light (as in PrBoom).

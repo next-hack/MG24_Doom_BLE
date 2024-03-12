@@ -224,11 +224,11 @@ static void I_UploadNewPalette(int pal)
 // Graphics API
 //
 
-void I_FinishUpdateBlock(void)
+void I_FinishUpdateBlock(uint8_t numberOfRows)
 {
     I_UploadNewPalette(_g->newpal);
 
-    startDisplayRefresh(displayData.workingBuffer);
+    startDisplayRefresh(displayData.workingBuffer, numberOfRows);
     displayData.workingBuffer = 1 - displayData.workingBuffer;
 }
 

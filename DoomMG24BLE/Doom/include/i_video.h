@@ -65,7 +65,7 @@ void I_ShutdownGraphics(void);
 /* Takes full 8 bit values. */
 void I_SetPalette(int pal); /* CPhipps - pass down palette number */
 boolean I_StartDisplay(void);
-void I_FinishUpdateBlock(void);
+void I_FinishUpdateBlock(uint8_t numberOfRows);
 /* I_StartTic
  * Called by D_DoomLoop,
  * called before processing each tic in a frame.

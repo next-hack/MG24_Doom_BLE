@@ -447,13 +447,13 @@ static boolean ST_NeedUpdate()
     return false;
 }
 
-void ST_Drawer(boolean statusbaron, boolean refresh)
+uint8_t ST_Drawer(boolean statusbaron, boolean refresh)
 {
     /* cph - let status bar on be controlled
      * completely by the call from D_Display
      * proff - really do it
      */
-
+    uint8_t rowsToUpdate = ST_SCALED_Y;
     ST_doPaletteStuff();  // Do red-/gold-shifts from damage/items
 
     if (statusbaron)
@@ -468,6 +468,7 @@ void ST_Drawer(boolean statusbaron, boolean refresh)
         }
         if (_g->st_needrefresh == 2)
         {
+          rowsToUpdate = SCREEN_HEIGHT;
           ST_doRefresh();
           _g->st_needrefresh = 1;
         }
@@ -485,6 +486,7 @@ void ST_Drawer(boolean statusbaron, boolean refresh)
            _g->st_needrefresh = 0;
         }
     }
+    return rowsToUpdate;
 }
 
 //

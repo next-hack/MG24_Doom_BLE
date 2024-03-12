@@ -43,6 +43,7 @@ typedef struct
     volatile uint8_t currentDisplayDmaLineBuffer;
     uint8_t workingBuffer;
     uint8_t displayMode;
+    uint8_t rowsToUpdate;
     volatile uint8_t dmaBusy;
 #if NEW_DISPLAY_UPDATE_WAY
     volatile uint8_t doNotDisableShorts;
@@ -51,7 +52,7 @@ typedef struct
 } displayData_t;
 extern displayData_t displayData;
 void displayPrintf(int x, int y, const char * format, ...);
-void startDisplayRefresh(uint8_t bufferNumber);
+void startDisplayRefresh(uint8_t bufferNumber, int updateAll);
 void setDisplayPen(int color, int background);
 void clearScreen4bpp();
 void displayPrintln(bool update, const char * format, ...);
