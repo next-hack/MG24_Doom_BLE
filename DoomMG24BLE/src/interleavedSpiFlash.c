@@ -303,7 +303,15 @@ static void interleavedSpiFlashWaitBusy(void)
     do
     {
         result = interleavedSpiReadSameData(0xFF);
+        if (result.firstData == 0xFF || result.secondData == 0xFF)
+        {
+          FLASH_NCS_HIGH();
+          delay(1);
+          FLASH_NCS_LOW();
+          result = interleavedSpiReadSameData(SPI_FLASH_STATUS_REGISTER_READ_CMD);
+          result = interleavedSpiReadSameData(0xFF);
 
+        }
     } while ((result.firstData & SPI_FLASH_STATUS_REGISTER_BUSY) || (result.secondData & SPI_FLASH_STATUS_REGISTER_BUSY));
     FLASH_NCS_HIGH();
 
@@ -434,7 +442,7 @@ uint32_t interleavedSpiFlashStartRead(uint32_t address, void *bufferAddress, uin
       // select flash
       // enable transmitters
       PRS->ASYNC_SWLEVEL = (1 << INTERLEAVED_SPI_PRS_CH);      // wait till add data have been transmitted
-      // send tata. Note we do not check, but address will be at most 24 bit
+      // send data. Note we do not check, but address will be at most 24 bit
       FIRST_SPI_USART->TXDATA = (SPI_FLASH_READ_DATA << 8) | (address >> 17);
       SECOND_SPI_USART->TXDATA = (SPI_FLASH_READ_DATA << 8) | (address >> 17);
       //

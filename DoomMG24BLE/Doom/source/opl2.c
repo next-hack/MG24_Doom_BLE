@@ -1,6 +1,6 @@
 // File: opl2.h/opl2.c
 // Nuked OPL2 Emulator, adapted for Doom on MCU ports by Nicola Wrachien.
-// This is atually an OPL2 emulator, with the bare minimum functionality for
+// This is actually an OPL2 emulator, with the bare minimum functionality for
 // Doom.
 // What's changed:
 //  - Reduced number of voices and operators to match OPL2
