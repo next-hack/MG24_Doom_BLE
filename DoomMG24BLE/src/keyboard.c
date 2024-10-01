@@ -26,10 +26,15 @@
 #include "printf.h"
 #include "delay.h"
 #include "em_gpio.h"
+#include "em_ldma.h"
+#if KEYBOARD == I2C_KEYBOARD
 #include "em_i2c.h"
+#endif
 #include "em_cmu.h"
-
-
+#if HAS_LEFT_JOYPAD || HAS_RIGHT_JOYPAD
+#define ADC_FREQ 5000000L
+#include "em_iadc.h"
+#endif
 #if KEYBOARD == PARALLEL_KEYBOARD
 #if 0
     const uint8_t pins[] =
@@ -156,7 +161,7 @@ void initParallelKeyboard()
  // error not implemented !
 }
 #endif
-#if KEYBOARD == SPI74165_KEYBOARD
+#if KEYBOARD == SPI74165_KEYBOARD || KEYBOARD == SPI2X74165_KEYBOARD
 void initSpi74165Keyboard()
 {
   //
@@ -165,20 +170,239 @@ void initSpi74165Keyboard()
   GPIO_PinModeSet(SR_CLK_PORT, SR_CLK_PIN, gpioModePushPull, 1);
 }
 #endif
+#if ADC_USES_DMA
+static LDMA_Descriptor_t iadc_descriptor;
+static volatile int32_t joydata[4];
+void initADC_LDMA(volatile int32_t *buffer, uint32_t size)
+{
+ // Trigger LDMA transfer on IADC scan completion
+ LDMA_TransferCfg_t transferCfg =
+   LDMA_TRANSFER_CFG_PERIPHERAL(ldmaPeripheralSignal_IADC0_IADC_SCAN);
+
+ /*
+  * Set up a linked descriptor to save scan results to the
+  * user-specified buffer.  By linking the descriptor to itself
+  * (the last argument is the relative jump in terms of the number of
+  * descriptors), transfers will run continuously until firmware
+  * otherwise stops them.
+  */
+ iadc_descriptor =
+   (LDMA_Descriptor_t)LDMA_DESCRIPTOR_LINKREL_P2M_WORD(&(IADC0->SCANFIFODATA), buffer, size, 0);
+  // no ISR
+  iadc_descriptor.xfer.doneIfs = 0;
+ /*
+  * Start the transfer.  The LDMA request and interrupt after saving
+  * the specified number of IADC conversion results.
+  */
+ LDMA_StartTransfer(IADC_LDMA_CH, (void*)&transferCfg, (void*)&iadc_descriptor);
+}
+#endif
+#if HAS_LEFT_JOYPAD || HAS_RIGHT_JOYPAD
+static int8_t joystickADCtoDelta(int data, int reverse)
+{
+    if (reverse)
+    {
+        data = JOYSTICK_MIDSCALE - data;
+    }
+    else
+    {
+        data = data - JOYSTICK_MIDSCALE;
+    }
+    // dead zone: no movement.
+    if (data < JOYSTICK_DEADBAND && data > -JOYSTICK_DEADBAND)
+    {
+        return 0;
+    }
+    if (data >= JOYSTICK_MAXVALUE)
+        return 127;
+    if (data <= - JOYSTICK_MAXVALUE)
+        return -128;
+    // intermediate value: between DEADBAND and MAXVALUE
+    if (data > 0)
+    {
+        return 128 * (data - JOYSTICK_DEADBAND) / JOYSTICK_MAXVALUE;
+    }
+    else
+    {
+        return 128 * (data + JOYSTICK_DEADBAND) / JOYSTICK_MAXVALUE;
+    }
+}
+#endif
+
+void getAnalogInput(int32_t * lx, int32_t *ly, int32_t *rx, int32_t *ry)
+{
+#if HAS_LEFT_JOYPAD || HAS_RIGHT_JOYPAD
+#if ADC_USES_DMA
+    int32_t data;
+    data =     joydata[0];
+    *lx = joystickADCtoDelta(data, false);
+    data =     joydata[1];
+    *ly = joystickADCtoDelta(data, false);
+    data =     joydata[2];
+    *rx = joystickADCtoDelta(data, true);
+    data =     joydata[3];
+    *ry = joystickADCtoDelta(data, false);
+#else
+    while (!(IADC0->IF & IADC_IF_SCANTABLEDONE))
+    {
+        // wait. Should not happen, as this function always issues a new read.
+    }
+    IADC0->IF_CLR =  IADC_IF_SCANTABLEDONE;
+    int32_t data;
+    data = IADC0->SCANFIFODATA;
+    //printf("Res LX =  %x, ", data);
+    *lx = joystickADCtoDelta(data, false);
+    data = IADC0->SCANFIFODATA;
+    //printf("Res LY =  %x, ", data);
+    *ly = joystickADCtoDelta(data, false);
+    data = IADC0->SCANFIFODATA;
+    //printf("Res RX =  %x, ", data);
+    *rx = joystickADCtoDelta(data, true);
+    data = IADC0->SCANFIFODATA;
+    //printf("Res RY =  %x\r\n", data);
+    *ry = joystickADCtoDelta(data, false);
+    IADC_command(IADC0, iadcCmdStartScan);
+#endif
+#else
+    *lx = 0;
+    *ly = 0;
+    *rx = 0;
+    *ry = 0;
+  #endif
+
+}
 void initKeyboard()
 {
 #if KEYBOARD == PARALLEL_KEYBOARD
     initParallelKeyboard();
 #elif KEYBOARD == I2C_KEYBOARD
     initI2cKeyboard();
-#elif KEYBOARD == SPI74165_KEYBOARD
+#elif KEYBOARD == SPI74165_KEYBOARD || KEYBOARD == SPI2X74165_KEYBOARD
     initSpi74165Keyboard();
 #else
 #error You should have a keyboard to play Doom, right?
 #endif
-}
+#if HAS_LEFT_JOYPAD || HAS_RIGHT_JOYPAD
+    // GPIOs for ADC shall be disabled.
+    GPIO_PinModeSet(JOYPAD_RIGHT_X_PORT, JOYPAD_RIGHT_X_PIN, gpioModeDisabled, 0);
+    GPIO_PinModeSet(JOYPAD_RIGHT_Y_PORT, JOYPAD_RIGHT_Y_PIN, gpioModeDisabled, 0);
+    GPIO_PinModeSet(JOYPAD_LEFT_X_PORT, JOYPAD_LEFT_X_PIN, gpioModeDisabled, 0);
+    GPIO_PinModeSet(JOYPAD_LEFT_Y_PORT, JOYPAD_LEFT_Y_PIN, gpioModeDisabled, 0);
+//
+    IADC_Init_t init = IADC_INIT_DEFAULT;
+    IADC_AllConfigs_t initAllConfigs = IADC_ALLCONFIGS_DEFAULT;
+    IADC_InitScan_t initScan = IADC_INITSCAN_DEFAULT;
 
-void getKeys(uint8_t * keys)
+    // Scan table structure
+    IADC_ScanTable_t scanTable = IADC_SCANTABLE_DEFAULT;
+    CMU_ClockEnable(cmuClock_IADC0, true);
+    // Use the crystal oscillator, so we don't care about
+    CMU_ClockSelectSet(cmuClock_IADCCLK, cmuSelect_FSRCO);
+    // Shutdown between conversions to reduce current
+    init.warmup = iadcWarmupNormal;
+
+    // Set the HFSCLK prescale value here
+    init.srcClkPrescale = IADC_calcSrcClkPrescale(IADC0, SystemFSRCOClockGet(), 0);
+
+      /*
+       * Configuration 0 is used by both scan and single conversions by
+       * default.  Using VDD, because potentiometer are referred to it.
+       * We just want to know the ratio.
+       */
+      initAllConfigs.configs[0].reference = iadcCfgReferenceVddx;
+      initAllConfigs.configs[0].vRef = 3300;
+      initAllConfigs.configs[0].osrHighSpeed = iadcCfgOsrHighSpeed64x;
+      initAllConfigs.configs[0].analogGain = iadcCfgAnalogGain1x;
+
+      /*
+       * CLK_SRC_ADC must be prescaled by some value greater than 1 to
+       * derive the intended CLK_ADC frequency.
+       *
+       * Based on the default 2x oversampling rate (OSRHS)...
+       *
+       * conversion time = ((4 * OSRHS) + 2) / fCLK_ADC
+       *
+       * ...which results in a maximum sampling rate of 833 ksps with the
+       * 2-clock input multiplexer switching time is included.
+       */
+      initAllConfigs.configs[0].adcClkPrescale = IADC_calcAdcClkPrescale(IADC0,
+                                                                         5000000L,
+                                                                         0,
+                                                                         iadcCfgModeNormal,
+                                                                         init.srcClkPrescale);
+
+      initScan.dataValidLevel = iadcFifoCfgDvl4;
+#if ADC_USES_DMA
+      initScan.triggerAction = iadcTriggerActionContinuous;
+      initScan.fifoDmaWakeup = true;
+#else
+      initScan.triggerAction = iadcTriggerActionOnce;
+      initScan.fifoDmaWakeup = false;
+#endif
+      /*
+       * Configure entries in the scan table.
+       */
+      for (int i = 0; i < 4; i++)
+      {
+          scanTable.entries[i].negInput = iadcNegInputGnd;
+          scanTable.entries[i].includeInScan = true;
+
+      }
+#if LEFT_JOYSTICK_ORIENTATION == 0
+      scanTable.entries[0].posInput = iadcPosInputPortAPin0 + JOYPAD_LEFT_X_PIN + JOYPAD_LEFT_X_PORT * 16;
+      scanTable.entries[1].posInput = iadcPosInputPortAPin0 + JOYPAD_LEFT_Y_PIN + JOYPAD_LEFT_Y_PORT * 16;
+#else
+#error figure you out what to do!
+#endif
+#if RIGHT_JOYSTICK_ORIENTATION == 270
+      scanTable.entries[2].posInput = iadcPosInputPortAPin0 + JOYPAD_RIGHT_Y_PIN + JOYPAD_RIGHT_Y_PORT * 16;
+      scanTable.entries[3].posInput = iadcPosInputPortAPin0 + JOYPAD_RIGHT_X_PIN + JOYPAD_RIGHT_X_PORT * 16;
+#endif
+
+      // Initialize IADC
+      IADC_init(IADC0, &init, &initAllConfigs);
+      // Initialize scan
+      IADC_initScan(IADC0, &initScan, &scanTable);
+      // Allocate the analog bus for ADC0 inputs.
+
+      __IOM uint32_t *analogBus[] = {&GPIO->ABUSALLOC, &GPIO->BBUSALLOC, &GPIO->CDBUSALLOC, &GPIO->CDBUSALLOC};
+      #if AUDIO_PIN_L & 1
+          *analogBus[AUDIO_PORT_L] = GPIO_CDBUSALLOC_CDODD0_VDAC0CH0;
+      #else
+      #endif
+      // allocate buses
+        *analogBus[JOYPAD_RIGHT_X_PORT] |= (JOYPAD_RIGHT_X_PIN & 1) ?  GPIO_CDBUSALLOC_CDODD1_ADC0 : GPIO_CDBUSALLOC_CDEVEN1_ADC0 ;
+        *analogBus[JOYPAD_RIGHT_Y_PORT] |= (JOYPAD_RIGHT_Y_PIN & 1) ?  GPIO_CDBUSALLOC_CDODD1_ADC0 : GPIO_CDBUSALLOC_CDEVEN1_ADC0 ;
+
+        *analogBus[JOYPAD_LEFT_X_PORT] |= (JOYPAD_LEFT_X_PIN & 1) ?  GPIO_CDBUSALLOC_CDODD1_ADC0 : GPIO_CDBUSALLOC_CDEVEN1_ADC0 ;
+      *analogBus[JOYPAD_LEFT_Y_PORT] |= (JOYPAD_LEFT_Y_PIN & 1) ?  GPIO_CDBUSALLOC_CDODD1_ADC0 : GPIO_CDBUSALLOC_CDEVEN1_ADC0 ;
+      //
+#if ADC_USES_DMA
+      initADC_LDMA(joydata, 4);
+#endif
+      //
+      IADC_command(IADC0, iadcCmdStartScan);
+#define TEST_ADC_VALUES 0
+#if TEST_ADC_VALUES
+      // for debug.
+      while (1)
+      {
+          int32_t lx, ly, rx, ry;
+          getAnalogInput(&lx, &ly, &rx, &ry);
+          printf("Out values: L(x, y) = (%d, %d), R(x, y) = (%d, %d)\r\n", lx, ly, rx, ry);
+      }
+#endif
+#endif
+}
+void keySRDelay(void)
+{
+    __asm volatile ("MOV r0, #10\n\t"
+                  "loop%=:\n\t"
+                  "SUBS r0, #1\n\t"
+                  "BNE loop%=\n\t"
+                  : : : "r0", "cc");
+}
+void getKeys(uint16_t * keys)
 {
 #if KEYBOARD == PARALLEL_KEYBOARD
     uint8_t buttons = 0;
@@ -197,36 +421,40 @@ void getKeys(uint8_t * keys)
 #elif KEYBOARD == I2C_KEYBOARD
     updateI2cKeyboard(keys);
     *keys = ~ *keys;
-#elif KEYBOARD == SPI74165_KEYBOARD
-    uint8_t buttons = 0;
+#elif KEYBOARD == SPI74165_KEYBOARD || KEYBOARD == SPI2X74165_KEYBOARD
+    uint32_t buttons = 0;
     // pulse on parallel load
     // Note some chips require some delay. Repeating the instruction twice.
     // start with clock low
     GPIO->P_CLR[SR_CLK_PORT].DOUT = 1 << SR_CLK_PIN;
+    keySRDelay();
     // shift mode
     GPIO->P_SET[SR_PL_PORT].DOUT = 1 << SR_PL_PIN;
-    GPIO->P_SET[SR_PL_PORT].DOUT = 1 << SR_PL_PIN;
+    keySRDelay();
     // Load
     GPIO->P_CLR[SR_PL_PORT].DOUT = 1 << SR_PL_PIN;
-    GPIO->P_CLR[SR_PL_PORT].DOUT = 1 << SR_PL_PIN;
+    keySRDelay();
     // shift mode
     GPIO->P_SET[SR_PL_PORT].DOUT = 1 << SR_PL_PIN;
-    GPIO->P_SET[SR_PL_PORT].DOUT = 1 << SR_PL_PIN;
+    keySRDelay();
     //
-    for (int i = 0; i < 8; i++)
+#if SPI2X74165_KEYBOARD == KEYBOARD
+    for (int i = 0; i < 16; i++)
+#else
+        for (int i = 0; i < 8; i++)
+#endif
     {
       // read data (should be already there).
-      uint8_t bit = (GPIO->P[SR_MISO_PORT].DIN >> SR_MISO_PIN) & 1;
+      uint32_t bit = (GPIO->P[SR_MISO_PORT].DIN >> SR_MISO_PIN) & 1;
       // clock high
       GPIO->P_SET[SR_CLK_PORT].DOUT = 1 << SR_CLK_PIN;
-      GPIO->P_SET[SR_CLK_PORT].DOUT = 1 << SR_CLK_PIN;
+      keySRDelay();
       // clock low
       GPIO->P_CLR[SR_CLK_PORT].DOUT = 1 << SR_CLK_PIN;
-      GPIO->P_CLR[SR_CLK_PORT].DOUT = 1 << SR_CLK_PIN;
+      keySRDelay();
       //
       buttons = buttons << 1;
       buttons |= bit;
-
     }
     *keys =  ~buttons;
 #else

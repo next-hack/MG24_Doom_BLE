@@ -89,9 +89,9 @@
 
 uint16_t palette[256];
 
-uint8_t keysDown()
+uint16_t keysDown()
 {
-  uint8_t buttons = 0;
+  uint16_t buttons = 0;
   getKeys(&buttons);
   return buttons;
 }
@@ -102,10 +102,11 @@ void I_StartTic(void)
 {
     static uint16_t oldGameKeyState = 0;
     // get which keys are currently pressed
-    uint8_t hwKeyState = keysDown();
+    uint16_t hwKeyState = keysDown();
     // translate between the hardware key state and the game key state
     uint16_t gameKeyState = 0;
 
+#if KEYBOARD != SPI2X74165_KEYBOARD
     if (hwKeyState & KEY_ALT)
     {
         if (hwKeyState & KEY_RIGHT)
@@ -148,6 +149,69 @@ void I_StartTic(void)
     // automap is now enabled when use and change weapon are pressed at the same time. 
     if ((hwKeyState & (KEY_USE | KEY_CHGW)) == (KEY_USE | KEY_CHGW))
         gameKeyState |= 1 << KEYD_MAP1;
+#endif
+#else
+        // Up triggers: strafe
+        if (hwKeyState & KEY_RT_UP)
+            gameKeyState |= 1 << KEYD_SR;
+        if (hwKeyState & KEY_LT_UP)
+            gameKeyState |= 1 << KEYD_SL;
+        // down triggers: change weapon
+        if (hwKeyState & KEY_LT_DOWN)
+            gameKeyState |= 1 << KEYD_CHGWDOWN;
+        if (hwKeyState & KEY_RT_DOWN)
+            gameKeyState |= 1 << KEYD_CHGW;
+        // F-buttons
+        if (hwKeyState & KEY_F1)
+            gameKeyState |= 1 << KEYD_MENU;
+        if (hwKeyState & KEY_F2)
+            gameKeyState |= 1 << KEYD_ALT;  // used for cheats ...
+        if (hwKeyState & KEY_F4)
+            gameKeyState |= 1 << KEYD_MAP1;
+        // Right DPAD: Old alternate is mapped to MAP
+        if (hwKeyState & KEY_ALT)
+            gameKeyState |= 1 << KEYD_SPEED;
+        if (hwKeyState & KEY_FIRE)
+            gameKeyState |= 1 << KEYD_FIRE;
+        if (hwKeyState & KEY_USE)
+            gameKeyState |= 1 << KEYD_USE;
+        if (hwKeyState & KEY_CHGW)
+            gameKeyState |= 1 << KEYD_CHGW;
+
+        // Left DPAD:
+        if (hwKeyState & KEY_UP)
+            gameKeyState |= 1 << KEYD_UP;
+        if (hwKeyState & KEY_DOWN)
+            gameKeyState |= 1 << KEYD_DOWN;
+        if (hwKeyState & KEY_RIGHT)
+            gameKeyState |= 1 << KEYD_RIGHT;
+        if (hwKeyState & KEY_LEFT)
+            gameKeyState |= 1 << KEYD_LEFT;
+
+
+#endif
+#if (HAS_LEFT_JOYPAD || HAS_RIGHT_JOYPAD)
+#define SENSITIVITY 50
+        int32_t lx, ly, rx, ry;
+        // TODO: do it with analog value, and not digital
+        getAnalogInput(&lx, &ly, &rx, &ry);
+        if (lx > SENSITIVITY)
+            gameKeyState |= 1 << KEYD_RIGHT;
+        if (lx < -SENSITIVITY)
+            gameKeyState |= 1 << KEYD_LEFT;
+        if (ly > SENSITIVITY)
+            gameKeyState |= 1 << KEYD_DOWN;
+        if (ly < -SENSITIVITY)
+            gameKeyState |= 1 << KEYD_UP;
+        if (rx > SENSITIVITY)
+            gameKeyState |= 1 << KEYD_SR;
+        if (rx < -SENSITIVITY)
+            gameKeyState |= 1 << KEYD_SL;
+        if (ry > SENSITIVITY)
+            gameKeyState |= 1 << KEYD_DOWN;
+        if (ry < -SENSITIVITY)
+            gameKeyState |= 1 << KEYD_UP;
+
 #endif
     // Get which keys have changed since last time
     uint16_t keys_changed = oldGameKeyState ^ gameKeyState;

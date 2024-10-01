@@ -15,3 +15,14 @@ environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.
 environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103/LC_ALL/value=en_GB.UTF-8
 environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103/append=true
 environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103/appendContributed=true
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LANG/delimiter=;
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LANG/operation=append
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LANG/value=
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LANGUAGE/delimiter=;
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LANGUAGE/operation=append
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LANGUAGE/value=
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LC_ALL/delimiter=;
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LC_ALL/operation=append
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/LC_ALL/value=en_GB.UTF-8
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/append=true
+environment/project/com.silabs.ss.framework.project.toolchain.core.default\#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt\:10.2.1.20201103@1/appendContributed=true

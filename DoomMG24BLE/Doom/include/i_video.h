@@ -69,11 +69,11 @@ void I_FinishUpdateBlock(uint8_t numberOfRows);
 /* I_StartTic
  * Called by D_DoomLoop,
  * called before processing each tic in a frame.
- * Quick syncronous operations are performed here.
+ * Quick synchronous operations are performed here.
  * Can call D_PostEvent.
  */
 void I_StartTic(void);
-uint8_t keysDown();
+uint16_t keysDown();
 /* I_StartFrame
  * Called by D_DoomLoop,
  * called before processing any tics in a frame

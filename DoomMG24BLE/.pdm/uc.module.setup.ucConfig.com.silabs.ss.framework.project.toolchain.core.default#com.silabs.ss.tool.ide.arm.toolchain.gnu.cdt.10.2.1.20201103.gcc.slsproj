@@ -7,8 +7,8 @@
     <file name="sl_memory_config.h" generated="true" linked="false"/>
     <file name="nvm3_default_config.h" generated="true" linked="false"/>
     <file name="psa_crypto_config.h" generated="true" linked="false"/>
-    <file name="sl_device_init_dcdc_config.h" generated="true" linked="false"/>
     <file name="sl_device_init_lfrco_config.h" generated="true" linked="false"/>
+    <file name="sl_device_init_dcdc_config.h" generated="true" linked="false"/>
     <file name="sl_bluetooth_config.h" generated="true" linked="false"/>
     <file name="sl_hfxo_manager_config.h" generated="true" linked="false"/>
     <file name="sl_device_init_dpll_config.h" generated="true" linked="false"/>

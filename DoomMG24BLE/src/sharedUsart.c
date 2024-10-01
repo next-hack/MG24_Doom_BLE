@@ -4,7 +4,7 @@
  *
  * @Note: this file should be rendered hardware independent.
  *
- *  Copyright (C) 2022-2023 by Nicola Wrachien
+ *  Copyright (C) 2022-2024 by Nicola Wrachien
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -90,7 +90,11 @@ int bufferedGetchar(void)
 
 void sharedUsartModeSet(void * interface, sharedUsartMode_t mode)
 {
-  static uint8_t eusart0Mode = SHARED_UART_MODE_NONE;
+#if SHARED_USART_INTERFACE == SHARED_EUSART0
+    static uint8_t eusart0Mode = SHARED_UART_MODE_NONE;
+#elif SHARED_USART_INTERFACE == SHARED_EUSART1
+  static uint8_t eusart1Mode = SHARED_UART_MODE_NONE;
+#endif
   static uint8_t usart0Mode = SHARED_UART_MODE_NONE;
 #if SHARED_USART_INTERFACE == SHARED_USART0
   // enable usart
@@ -140,7 +144,7 @@ void sharedUsartModeSet(void * interface, sharedUsartMode_t mode)
       if (mode == SHARED_USART_MODE_DEVICE)
       {
         EUSART0->CLKDIV = 0;
-        EUSART0->CFG1 = eusartRxFiFoWatermark4Frame | eusartTxFiFoWatermark15Frame;
+        EUSART0->CFG1 = EUSART_SPI_WATERMARK;
         EUSART0->CFG2 = _EUSART_CFG2_MASTER_MASK | (HIGH_SPEED_EUSART_DIVISOR << 24);
         EUSART0->FRAMECFG = eusartDataBits8; // will be 16 for dual SPI
         EUSART0->CFG0 = _EUSART_CFG0_SYNC_SYNC | _EUSART_CFG0_MSBF_MASK;
@@ -162,12 +166,14 @@ void sharedUsartModeSet(void * interface, sharedUsartMode_t mode)
       {
         // VCOM MODE
         // Disable DMA
-        LDMA->CHDIS = (1 << FIRST_SPI_LDMA_CH);
+        LDMA->CHDIS = (15 << FIRST_SPI_LDMA_CH);
         EUSART_UartInit_TypeDef init =  EUSART_UART_INIT_DEFAULT_HF;
-        init.enable = false;
+        init.enable = eusartDisable;
         EUSART_UartInitHf(EUSART0, &init);
-        EUSART0->CFG1 = eusartRxFiFoWatermark1Frame | eusartTxFiFoWatermark15Frame;
+        EUSART0->CFG1 = EUSART_COM_WATERMARK;
         EUSART_Enable(EUSART0, eusartEnable);
+        //
+        EUSART_BaudrateSet(EUSART0, FPCLK / 2, UART_BAUDRATE / 2); // the /2 is to prevent overflow in overclock mode!
         //
         GPIO->EUSARTROUTE[0].TXROUTE = ((uint32_t) VCOM_TX_PORT << _GPIO_EUSART_TXROUTE_PORT_SHIFT) | (VCOM_TX_PIN << _GPIO_EUSART_TXROUTE_PIN_SHIFT);
         GPIO->EUSARTROUTE[0].RXROUTE = ((uint32_t) VCOM_RX_PORT << _GPIO_EUSART_RXROUTE_PORT_SHIFT) | (VCOM_RX_PIN << _GPIO_EUSART_RXROUTE_PIN_SHIFT);
@@ -196,7 +202,7 @@ void sharedUsartModeSet(void * interface, sharedUsartMode_t mode)
       else
       {
         // wait for transmission finished
-        while (! (USART0->STATUS & USART_STATUS_TXIDLE));
+        while (! (USART0->STATUS & USART_STATUS_TXC));
       }
       if (mode == SHARED_USART_MODE_DEVICE)
       {
@@ -240,13 +246,174 @@ void sharedUsartModeSet(void * interface, sharedUsartMode_t mode)
       }
       else if (mode == SHARED_USART_DISPLAY_DIRECT_MODE)
       {
+        //can't change during dma
+        while ((displayData.dmaBusy));
+        while ((LDMA->CHBUSY & (1 << (DISPLAY_LDMA_CH))));
+        //
+        if (USART0->EN == 0)
+        {
+          // wait for pending transmission finished
+          while (! (USART0->STATUS & USART_STATUS_TXIDLE));
+        }
+        //
         // disable DMA
         LDMA->CHDIS_SET = (1 << DISPLAY_LDMA_CH);
         USART0->CMD = USART_CMD_TXDIS | USART_CMD_RXDIS | USART_CMD_CLEARTX | USART_CMD_CLEARRX;
         USART0->CTRL = USART_CTRL_MSBF_ENABLE | /*USART_CTRL_CLKPHA_SAMPLETRAILING | USART_CTRL_CLKPOL_IDLEHIGH |*/ USART_CTRL_SYNC_ENABLE | USART_CTRL_SMSDELAY;
         USART0->FRAME = USART_FRAME_DATABITS_EIGHT;
         USART0->CMD = USART_CMD_MASTEREN | USART_CMD_TXEN | USART_CMD_RXEN; // enable also RX
+#if        OVERCLOCK
+        USART0->CLKDIV = 256 * (40000 / (2 * 10000) - 1);  ;     //
+#else
+        USART0->CLKDIV = 0;     //
+#endif
+        //
+        GPIO->USARTROUTE[0].TXROUTE = ((uint32_t) DISPLAY_MOSI_PORT << _GPIO_USART_TXROUTE_PORT_SHIFT) | (DISPLAY_MOSI_PIN << _GPIO_USART_TXROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].CLKROUTE = ((uint32_t) DISPLAY_SCK_PORT << _GPIO_USART_CLKROUTE_PORT_SHIFT) | (DISPLAY_SCK_PIN << _GPIO_USART_CLKROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].ROUTEEN = GPIO_USART_ROUTEEN_TXPEN | GPIO_USART_ROUTEEN_CLKPEN;
+      }
+      usart0Mode = mode;
+    }
+  }
+#elif SHARED_USART_INTERFACE == SHARED_EUSART1
+  if (interface == EUSART1)
+  {
+    if (mode != eusart1Mode)
+    {
+      //can't change during dma
+      while ((LDMA->CHBUSY & (1 << (SECOND_SPI_LDMA_CH))));
+      // wait for transmission finished.
+      while ((EUSART1->EN & EUSART_EN_EN) && ! (EUSART1->STATUS & EUSART_STATUS_TXIDLE));
+      // Disable EUSART
+      EUSART1->EN_CLR = EUSART_EN_EN;
+      // wait till disabled
+      while (EUSART1->EN & EUSART_EN_DISABLING);
+      if (mode == SHARED_USART_MODE_DEVICE)
+      {
+        EUSART1->CLKDIV = 0;
+        EUSART1->CFG1 = EUSART_SPI_WATERMARK;
+        EUSART1->CFG2 = _EUSART_CFG2_MASTER_MASK | (HIGH_SPEED_EUSART_DIVISOR << 24);
+        EUSART1->FRAMECFG = eusartDataBits8; // will be 16 for dual SPI
+        EUSART1->CFG0 = _EUSART_CFG0_SYNC_SYNC | _EUSART_CFG0_MSBF_MASK;
+        // Configure frame format
+        // Finally enable the Rx and/or Tx channel (as specified).
+        EUSART1->EN = 1;
+        while (EUSART1->SYNCBUSY & (_EUSART_SYNCBUSY_RXEN_MASK | _EUSART_SYNCBUSY_TXEN_MASK)); // Wait for low frequency register synchronization.
+        EUSART1->CMD = EUSART_CMD_TXDIS |  EUSART_CMD_CLEARTX | EUSART_CMD_RXDIS;
+        while (EUSART1->SYNCBUSY & (_EUSART_SYNCBUSY_RXEN_MASK | _EUSART_SYNCBUSY_TXEN_MASK));
+        while (~EUSART1->STATUS & (_EUSART_STATUS_RXIDLE_MASK | _EUSART_STATUS_TXIDLE_MASK));
+        while (EUSART1->SYNCBUSY);
+        //
+#if EXT_MEM_USES_EUSART1
+        extMemRestoreInterface();
+#endif
+        EUSART1->TRIGCTRL = EUSART_TRIGCTRL_TXTEN | EUSART_TRIGCTRL_AUTOTXTEN | EUSART_TRIGCTRL_RXTEN;
+      }
+      else if (mode == SHARED_USART_MODE_VCOM)
+      {
+        // VCOM MODE
+        // Disable DMA
+        LDMA->CHDIS = (15 << FIRST_SPI_LDMA_CH);
+        EUSART_UartInit_TypeDef init =  EUSART_UART_INIT_DEFAULT_HF;
+        init.enable = eusartDisable;
+        EUSART_UartInitHf(EUSART1, &init);
+        EUSART1->CFG1 = EUSART_COM_WATERMARK;
+        EUSART_Enable(EUSART1, eusartEnable);
+        //
+        EUSART_BaudrateSet(EUSART1, FPCLK / 2, UART_BAUDRATE / 2); // the /2 is to prevent overflow in overclock mode!
+        //
+        GPIO->EUSARTROUTE[1].TXROUTE = ((uint32_t) VCOM_TX_PORT << _GPIO_EUSART_TXROUTE_PORT_SHIFT) | (VCOM_TX_PIN << _GPIO_EUSART_TXROUTE_PIN_SHIFT);
+        GPIO->EUSARTROUTE[1].RXROUTE = ((uint32_t) VCOM_RX_PORT << _GPIO_EUSART_RXROUTE_PORT_SHIFT) | (VCOM_RX_PIN << _GPIO_EUSART_RXROUTE_PIN_SHIFT);
+        GPIO->EUSARTROUTE[1].ROUTEEN = GPIO_EUSART_ROUTEEN_TXPEN | GPIO_EUSART_ROUTEEN_RXPEN;
+        //
+      }
+      else
+      { // error
+        while(1);
+      }
+    }
+    eusart1Mode = mode;
+  }
+  else if (interface == USART0)
+  {
+    if (mode != usart0Mode)
+    {
+      //can't change during dma
+      while ((displayData.dmaBusy));
+      while ((LDMA->CHBUSY & (1 << (DISPLAY_LDMA_CH))));
+      // enable usart
+      if (USART0->EN == 0)
+      {
+        USART0->EN =  USART_EN_EN;
+      }
+      else
+      {
+        // wait for transmission finished
+        while (! (USART0->STATUS & USART_STATUS_TXC));
+      }
+      if (mode == SHARED_USART_MODE_DEVICE)
+      {
+        USART0->CMD = USART_CMD_TXDIS | USART_CMD_RXDIS | USART_CMD_CLEARTX | USART_CMD_CLEARRX;
+#if DISPLAY_USES_RESET_INSTEAD_OF_NCS
+        USART0->CTRL = USART_CTRL_MSBF_ENABLE | USART_CTRL_CLKPHA_SAMPLETRAILING | USART_CTRL_CLKPOL_IDLEHIGH | USART_CTRL_SYNC_ENABLE;
+#else
+        USART0->CTRL = USART_CTRL_MSBF_ENABLE /*| USART_CTRL_CLKPHA_SAMPLETRAILING | USART_CTRL_CLKPOL_IDLEHIGH */ | USART_CTRL_SYNC_ENABLE  | USART_CTRL_SMSDELAY;;
+#endif
+        USART0->FRAME = USART_FRAME_DATABITS_EIGHT;
+        USART0->CMD = USART_CMD_MASTEREN | USART_CMD_TXEN;
         USART0->CLKDIV = 0;     // 40 MHz
+        //
+        GPIO->USARTROUTE[0].TXROUTE = ((uint32_t) DISPLAY_MOSI_PORT << _GPIO_USART_TXROUTE_PORT_SHIFT) | (DISPLAY_MOSI_PIN << _GPIO_USART_TXROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].CLKROUTE = ((uint32_t) DISPLAY_SCK_PORT << _GPIO_USART_CLKROUTE_PORT_SHIFT) | (DISPLAY_SCK_PIN << _GPIO_USART_CLKROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].ROUTEEN = GPIO_USART_ROUTEEN_TXPEN | GPIO_USART_ROUTEEN_CLKPEN;
+      }
+      else if (mode == SHARED_USART_MODE_SD_FAST || mode == SHARED_USART_MODE_SD_SLOW)
+      {
+
+        DISPLAY_NCS_HIGH();
+        // disable DMA
+        LDMA->CHDIS_SET = (1 << DISPLAY_LDMA_CH);
+        USART0->CMD = USART_CMD_TXDIS | USART_CMD_RXDIS | USART_CMD_CLEARTX | USART_CMD_CLEARRX;
+        USART0->CTRL = USART_CTRL_MSBF_ENABLE | /*USART_CTRL_CLKPHA_SAMPLETRAILING | USART_CTRL_CLKPOL_IDLEHIGH |*/ USART_CTRL_SYNC_ENABLE | USART_CTRL_SMSDELAY;
+        USART0->FRAME = USART_FRAME_DATABITS_EIGHT;
+        USART0->CMD = USART_CMD_MASTEREN | USART_CMD_TXEN | USART_CMD_RXEN; // enable also RX
+        if (mode == SHARED_USART_MODE_SD_FAST)
+        {
+          USART0->CLKDIV = 256 * (40000 / (2 * 10000) - 1);     // 10 MHz
+        }
+        else
+        {
+          USART0->CLKDIV = 256 * (40000 / (2 * 100) - 1);     // 100 kHz
+        }
+        // enable also RX pin
+        GPIO->USARTROUTE[0].RXROUTE = ((uint32_t) SD_MISO_PORT << _GPIO_USART_RXROUTE_PORT_SHIFT) | (SD_MISO_PIN << _GPIO_USART_RXROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].TXROUTE = ((uint32_t) DISPLAY_MOSI_PORT << _GPIO_USART_TXROUTE_PORT_SHIFT) | (DISPLAY_MOSI_PIN << _GPIO_USART_TXROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].CLKROUTE = ((uint32_t) DISPLAY_SCK_PORT << _GPIO_USART_CLKROUTE_PORT_SHIFT) | (DISPLAY_SCK_PIN << _GPIO_USART_CLKROUTE_PIN_SHIFT);
+        GPIO->USARTROUTE[0].ROUTEEN = GPIO_USART_ROUTEEN_TXPEN | GPIO_USART_ROUTEEN_CLKPEN | GPIO_USART_ROUTEEN_RXPEN;
+      }
+      else if (mode == SHARED_USART_DISPLAY_DIRECT_MODE)
+      {
+        //can't change during dma
+        while ((displayData.dmaBusy));
+        while ((LDMA->CHBUSY & (1 << (DISPLAY_LDMA_CH))));
+        //
+        if (USART0->EN == 0)
+        {
+          // wait for pending transmission finished
+          while (! (USART0->STATUS & USART_STATUS_TXIDLE));
+        }
+        //
+        // disable DMA
+        LDMA->CHDIS_SET = (1 << DISPLAY_LDMA_CH);
+        USART0->CMD = USART_CMD_TXDIS | USART_CMD_RXDIS | USART_CMD_CLEARTX | USART_CMD_CLEARRX;
+        USART0->CTRL = USART_CTRL_MSBF_ENABLE | /*USART_CTRL_CLKPHA_SAMPLETRAILING | USART_CTRL_CLKPOL_IDLEHIGH |*/ USART_CTRL_SYNC_ENABLE | USART_CTRL_SMSDELAY;
+        USART0->FRAME = USART_FRAME_DATABITS_EIGHT;
+        USART0->CMD = USART_CMD_MASTEREN | USART_CMD_TXEN | USART_CMD_RXEN; // enable also RX
+#if        OVERCLOCK
+        USART0->CLKDIV = 256 * (40000 / (2 * 10000) - 1);  ;     //
+#else
+        USART0->CLKDIV = 0;     //
+#endif
         //
         GPIO->USARTROUTE[0].TXROUTE = ((uint32_t) DISPLAY_MOSI_PORT << _GPIO_USART_TXROUTE_PORT_SHIFT) | (DISPLAY_MOSI_PIN << _GPIO_USART_TXROUTE_PIN_SHIFT);
         GPIO->USARTROUTE[0].CLKROUTE = ((uint32_t) DISPLAY_SCK_PORT << _GPIO_USART_CLKROUTE_PORT_SHIFT) | (DISPLAY_SCK_PIN << _GPIO_USART_CLKROUTE_PIN_SHIFT);
@@ -269,6 +436,11 @@ int usart_putchar(int c)
   while (!(EUSART0->STATUS & EUSART_STATUS_TXIDLE) || !(EUSART0->STATUS & EUSART_STATUS_TXENS));
   EUSART0->TXDATA = c;
   while (!(EUSART0->STATUS & USART_STATUS_TXC));
+#elif SHARED_USART_INTERFACE == SHARED_EUSART1
+  while (!(EUSART1->STATUS & EUSART_STATUS_TXIDLE) || !(EUSART1->STATUS & EUSART_STATUS_TXENS));
+  EUSART1->TXDATA = c;
+  while (!(EUSART1->STATUS & USART_STATUS_TXC));
+
 #else
 #error NOT IMPLEMENTED
 #endif

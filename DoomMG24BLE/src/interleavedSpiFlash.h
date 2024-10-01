@@ -34,6 +34,10 @@
 //
 #define SPI_FLASH_SECTOR_SIZE                   4096
 #define SPI_FLASH_32K_BLOCK_SIZE                (32 * 1024)
+//
+#define EUSART_SPI_WATERMARK (eusartRxFiFoWatermark4Frame | eusartTxFiFoWatermark16Frame) // rx was 4, tx 16
+#define EUSART_COM_WATERMARK (eusartRxFiFoWatermark1Frame | eusartTxFiFoWatermark16Frame)
+//
 typedef struct
 {
     uint32_t firstData;

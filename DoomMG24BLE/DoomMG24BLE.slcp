@@ -20,33 +20,34 @@ source:
 - {path: app.c}
 tag: ['hardware:rf:band:2400']
 include:
-- path: ''
+- path: .
   file_list:
   - {path: app.h}
 sdk: {id: gecko_sdk, version: 4.3.2}
 toolchain_settings: []
 component:
-- {id: bluetooth_feature_ll_even_scheduling}
-- {id: emlib_ldma}
-- {id: power_manager_deepsleep}
+- {id: MGM240PB32VNA}
+- {id: bluetooth_feature_connection}
+- {id: bluetooth_feature_gatt}
 - {id: bluetooth_feature_gatt_server}
 - {id: bluetooth_feature_legacy_advertiser}
-- {id: MGM240PB32VNA}
-- {id: gatt_configuration}
-- {id: emlib_eusart}
-- {id: emlib_vdac}
-- {id: bluetooth_stack}
-- {id: bluetooth_feature_gatt}
-- {id: device_init_dpll}
-- {id: emlib_i2c}
 - {id: bluetooth_feature_legacy_scanner}
-- {id: bluetooth_feature_connection}
-- {id: emlib_usart}
-- {id: bluetooth_feature_system}
+- {id: bluetooth_feature_ll_even_scheduling}
 - {id: bluetooth_feature_scanner}
+- {id: bluetooth_feature_system}
+- {id: bluetooth_stack}
 - {id: component_catalog}
-- {id: psa_its}
+- {id: device_init_dpll}
+- {id: emlib_eusart}
+- {id: emlib_i2c}
+- {id: emlib_iadc}
+- {id: emlib_ldma}
 - {id: emlib_timer}
+- {id: emlib_usart}
+- {id: emlib_vdac}
+- {id: gatt_configuration}
+- {id: power_manager_deepsleep}
+- {id: psa_its}
 other_file:
 - {path: create_bl_files.bat}
 - {path: create_bl_files.sh}

@@ -6,6 +6,12 @@ The code is based on doomhack's GBA Doom Port (https://github.com/doomhack/GBADo
 
 **Warning!** After you import the project on Simplicity Studio, you must "force project generation", so that the Gecko SDK files are copied on it. This is to comply with Silabs' licensing system. See "Building, developing, etc." below.
 
+** News:**
+
+**26/09/2024 Update! We have added support for The Gamepad, an open source gaming console based on the Arduino Nano Matter Board.
+Please see https://next-hack.com/index.php/2024/09/21/the-gamepad-an-open-source-diy-handheld-gaming-console/ for more information about build information!
+**
+
 **12/03/2024 Update! Now peak 35 fps can be achieved also on 320 x 240 resolution thanks to partial screen refresh!**
 
 **Features**
@@ -67,6 +73,7 @@ In the "hardware" subdirectory you will find the project for the SparkFun Thing 
 
 ## Building, developing, etc:
 See https://next-hack.com/index.php/2023/12/10/multiplayer-doom-on-the-sparkfun-thing-plus-matter-board/
+See also: https://next-hack.com/index.php/2024/09/21/the-gamepad-an-open-source-diy-handheld-gaming-console/
 
 ## License:
 - Hardware: [Solderpad Hardware License version 2.1](https://solderpad.org/licenses/SHL-2.1)

@@ -88,9 +88,6 @@
 //
 #define DEBUG_OUT_PRINTF                  1
 //
-#define USE_SHARED_USART                  1
-#define SHARED_USART_INTERFACE            SHARED_EUSART0
-//
 #define UART_OVERSAMPLE                   16U
 #define UART_BAUDRATE                     115200U
 //
@@ -114,10 +111,14 @@
 #define FIRST_SPI_LDMA_CH                 (0)
 #define SECOND_SPI_LDMA_CH                (FIRST_SPI_LDMA_CH + 1)
 #define INTERLEAVED_SPI_PRS_CH            8     // DO NOT USE PRS 7, it's for BT
-#define DISPLAY_LDMA_CH                   (SECOND_SPI_LDMA_CH + 1)
+#define DISPLAY_LDMA_CH                   (SECOND_SPI_LDMA_CH + 3)
 //
-#define AUDIO_DMA_CHANNEL_L               (6)
+#define AUDIO_DMA_CHANNEL_L               (DISPLAY_LDMA_CH + 1)
 #define AUDIO_DMA_CHANNEL_R               (AUDIO_DMA_CHANNEL_L + 1)
+//
+#define ADC_USES_DMA 1
+//
+#define IADC_LDMA_CH                      (AUDIO_DMA_CHANNEL_R + 1)
 //
 #define ENABLE_MUSIC                      1
 #define MUSIC_NUM_SAMPLES                 1024

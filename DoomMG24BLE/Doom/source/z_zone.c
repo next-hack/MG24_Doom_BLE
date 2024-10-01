@@ -90,7 +90,7 @@ uint8_t zone_critical_isr_mask;
 // instead of having to switch to 12 bytes/block.
 #define CHUNK_SIZE 4
 // Note: this value must be tuned depending on how much ram is available.
-#define MAX_STATIC_ZONE (221284                                           \
+#define MAX_STATIC_ZONE (221244                                           \
                          - SL_STACK_SIZE                                  \
                          - SL_HEAP_SIZE                                   \
                          - sizeof(displayData_t)                          \

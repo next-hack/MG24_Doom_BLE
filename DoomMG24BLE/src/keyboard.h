@@ -29,5 +29,6 @@
 //Keys
 #include "boards.h"
 void initKeyboard();
-void getKeys(uint8_t *keys);
+void getKeys(uint16_t *keys);
+void getAnalogInput(int32_t * lx, int32_t *ly, int32_t *rx, int32_t *ry);
 #endif

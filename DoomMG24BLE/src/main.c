@@ -104,7 +104,7 @@ int main(void)
   {
       cmuClock_EUSART0, cmuClock_EUSART1, cmuClock_PRS, cmuClock_LDMA,
       cmuClock_LDMAXBAR, cmuClock_SYSCFG, cmuClock_USART0, CAT(cmuClock_TIMER, TICK_TIMER_NUMBER),
-      cmuClock_GPIO,
+      cmuClock_GPIO, CAT(cmuClock_TIMER, AUDIO_PWM_TIMER_NUMBER),
   };
   for (size_t i = 0; i < sizeof (clocks) / sizeof(clocks[0]); i++)
   {
@@ -124,8 +124,19 @@ int main(void)
   GPIO_PinModeSet(VCOM_RX_PORT, VCOM_RX_PIN, gpioModePushPull, 1);
   //
   displayInit();
+
   initGraphics();
+
   displayPrintln(0, "Doom on EFR32MG24 by Nicola Wrachien");
+#define TEST_ARDUINO 0
+#if TEST_ARDUINO
+  GPIO_PinModeSet(gpioPortC, 1, gpioModePushPull, 0);
+  while (1)
+  {
+    delay(500);
+    GPIO_PinOutToggle(gpioPortC, 1);
+  }
+#endif
   displayPrintln(1, "Build date %s", __DATE__);
   displayPrintln(1, "Build time %s", __TIME__);
   //
@@ -187,7 +198,7 @@ int main(void)
 #endif
   // Let's check if we shall go in ymodem mode
   initKeyboard();
-  uint8_t c;
+  uint16_t c;
   getKeys(&c);
 
   displayPrintln(1, "Key Pressed: %x", c);
@@ -204,7 +215,7 @@ int main(void)
       displayPrintln(1, "Trying to init SD CARD.");
       FATFS *fs = (void*)staticZone;
       uint32_t stat =  f_mount(fs, "", 1);
-      printf("f_mount() %d\r\n", stat);
+      displayPrintln(1, "f_mount() %d\r\n", stat);
       if (stat == 0)
       {
         displayPrintln(1, "SD Card init successful!");

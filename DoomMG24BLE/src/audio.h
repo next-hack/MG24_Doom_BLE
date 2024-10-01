@@ -1,7 +1,9 @@
 /**
- *  DAC and PWM (not tested anymore) for sound generation..
+ *  DAC and PWM  for sound generation..
  *
- *  Copyright (C) 2021-2023 by Nicola Wrachien (next-hack in the comments)
+ *  Note: DAC needs external amplification.
+ *
+ *  Copyright (C) 2021-2024 by Nicola Wrachien (next-hack in the comments)
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -38,7 +40,11 @@
 #define MAX_CHANNELS                    (8)
 #define AUDIO_BUFFER_LENGTH             (1024)
 #define AUDIO_BUFFER_DELAY              (200)   // up to 20 ms delay
+#if AUDIO_MODE == DAC_AUDIO_MODE
 #define ZERO_AUDIO_LEVEL                (2048)  // 12 bit dac
+#else
+#define ZERO_AUDIO_LEVEL                (128 * 256)  // 16 bit word, with top PWM
+#endif
 //
 #define DMX_DATA_SOUND_OFFSET       0x18
 //

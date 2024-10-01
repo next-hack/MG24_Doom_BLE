@@ -2,7 +2,7 @@
  * @file sharedUsart.h
  * @brief 
  *
- *  Copyright (C) 2022-2023 by Nicola Wrachien
+ *  Copyright (C) 2022-2024 by Nicola Wrachien
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -55,7 +55,15 @@ extern "C" {
   void printBufferedData(void);
   int sharedUsartPrintf(const char * format, ...);
   int usart_putchar(int c);
-#define VCOM_USART                    EUSART0
+#define USE_SHARED_USART              1
+#define SHARED_USART_INTERFACE        SHARED_EUSART1
+#if SHARED_USART_INTERFACE == SHARED_EUSART0
+    #define VCOM_USART                    EUSART0
+#elif SHARED_USART_INTERFACE == SHARED_EUSART1
+    #define VCOM_USART                    EUSART1
+#else
+    #error not supported shared usart.
+#endif
 #define DISPLAY_USART                 USART0
 #define SET_DISPLAY_MODE()            sharedUsartModeSet(DISPLAY_USART, SHARED_USART_MODE_DEVICE)
 #define SET_DISPLAY_DIRECT_MODE()     sharedUsartModeSet(DISPLAY_USART, SHARED_USART_DISPLAY_DIRECT_MODE)

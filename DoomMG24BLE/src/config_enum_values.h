@@ -33,10 +33,13 @@
 #define I2C_KEYBOARD                        1
 #define PARALLEL_KEYBOARD                   2
 #define SPI74165_KEYBOARD                   3
+#define SPI2X74165_KEYBOARD                 4
 // BOARD type enums
 #define BOARD_WSTK_1                        1       // first board, with I2C Keyboard, dual audio, and 320x240 display
 #define BOARD_WSTK_2                        2       // Second board, with SPI Keyboard, dual audio, and 320x240 display
 #define BOARD_WSTK_3                        3       // third board, with SPI Keyboard, dual audio, and 320x240 display
 #define BOARD_SPARKDOOM                     4       // Sparkfun board, with SPI Keyboard, dual audio, and 320x240 display
+#define BOARD_SPARKDOOM_ARDUINONANOMATTER   5       // Arduino nano matter board on the Sparkdoom board, with SPI Keyboard, dual audio, and 320x240 display
+#define BOARD_THEGAMEPAD_ARDUINONANOMATTER  6       // The gamepad V1.0 with ARDUINO NANO MATTER board.
 
 #endif /* SRC_ENUM_VALUES_H_ */

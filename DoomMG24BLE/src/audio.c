@@ -1,7 +1,7 @@
 /**
- *  DAC and PWM (not tested anymore) for sound generation..
+ *  DAC and PWM for sound generation..
  *
- *  Copyright (C) 2021-2023 by Nicola Wrachien (next-hack in the comments)
+ *  Copyright (C) 2021-2024 by Nicola Wrachien (next-hack in the comments)
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -42,8 +42,6 @@
 #include "main.h"
 #include "global_data.h"
 //
-#define GLOBAL_AUDIO_RSHIFT 4
-//
 uint16_t lastMusicIdx = 0;
 #if ENABLE_MUSIC
 int16_t musBuffer[MUSIC_NUM_SAMPLES];
@@ -51,9 +49,11 @@ int16_t musBuffer[MUSIC_NUM_SAMPLES];
 //
 #define AUDIO_SAMPLE_TIMER_CLOCK CAT(cmuClock_TIMER, AUDIO_SAMPLE_TIMER_NUMBER)
 #if AUDIO_MODE == PWM_AUDIO_MODE
-  #define AUDIO_PWM_TIMER_CLOCK CAT(cmuClock_TIMER, AUDIO_PWM_TIMER_NUMBER)
+    #define GLOBAL_AUDIO_RSHIFT 0
+    #define AUDIO_PWM_TIMER_CLOCK CAT(cmuClock_TIMER, AUDIO_PWM_TIMER_NUMBER)
 #define LDMA_REQSEL_VALUE CAT(LDMAXBAR_CH_REQSEL_SOURCESEL_TIMER, AUDIO_SAMPLE_TIMER_NUMBER) | CAT3(LDMAXBAR_CH_REQSEL_SIGSEL_TIMER, AUDIO_SAMPLE_TIMER_NUMBER, UFOF)
 #elif AUDIO_MODE == DAC_AUDIO_MODE
+    #define GLOBAL_AUDIO_RSHIFT 4
   #define LDMA_REQSEL_VALUE CAT(LDMAXBAR_CH_REQSEL_SOURCESEL_TIMER, AUDIO_SAMPLE_TIMER_NUMBER) | CAT3(LDMAXBAR_CH_REQSEL_SIGSEL_TIMER, AUDIO_SAMPLE_TIMER_NUMBER, UFOF)
 #else
   #error audio mode not defined
@@ -77,19 +77,27 @@ void initAudio()
     CMU_ClockEnable(AUDIO_SAMPLE_TIMER_CLOCK, true);   // for Audio
     #if AUDIO_MODE == PWM_AUDIO_MODE
         CMU_ClockEnable(AUDIO_PWM_TIMER_CLOCK, true);
-        // TIMER 3 generates PWM
+        // TIMER 1 generates PWM
         AUDIO_PWM_TIMER->CFG = TIMER_CFG_PRESC_DIV1 | TIMER_CFG_MODE_UPDOWN;
         AUDIO_PWM_TIMER->CC[0].CFG = TIMER_CC_CFG_MODE_PWM;
+        AUDIO_PWM_TIMER->CC[1].CFG = TIMER_CC_CFG_MODE_PWM;
         AUDIO_PWM_TIMER->EN = TIMER_EN_EN;
         AUDIO_PWM_TIMER->CC[0].CTRL = TIMER_CC_CTRL_ICEVCTRL_EVERYEDGE | TIMER_CC_CTRL_CMOA_TOGGLE;
+        AUDIO_PWM_TIMER->CC[1].CTRL = TIMER_CC_CTRL_ICEVCTRL_EVERYEDGE | TIMER_CC_CTRL_CMOA_TOGGLE;
         AUDIO_PWM_TIMER->TOP = 0xFF;
         //
         AUDIO_PWM_TIMER->CC[0].OC = 0x10;
+        AUDIO_PWM_TIMER->CC[1].OC = 0x10;
         AUDIO_PWM_TIMER->CMD = TIMER_CMD_START;
         // Route PWM pin
         GPIO_PinModeSet(AUDIO_PORT_L, AUDIO_PIN_L , gpioModePushPullAlternate, 0);
         GPIO->TIMERROUTE[AUDIO_PWM_TIMER_NUMBER].ROUTEEN = GPIO_TIMER_ROUTEEN_CC0PEN;
         GPIO->TIMERROUTE[AUDIO_PWM_TIMER_NUMBER].CC0ROUTE = (AUDIO_PORT_L << _GPIO_TIMER_CC0ROUTE_PORT_SHIFT) | (AUDIO_PIN_L << _GPIO_TIMER_CC0ROUTE_PIN_SHIFT);
+#if STEREO_AUDIO
+        GPIO_PinModeSet(AUDIO_PORT_R, AUDIO_PIN_R , gpioModePushPullAlternate, 0);
+        GPIO->TIMERROUTE[AUDIO_PWM_TIMER_NUMBER].ROUTEEN = GPIO_TIMER_ROUTEEN_CC0PEN | GPIO_TIMER_ROUTEEN_CC1PEN;
+        GPIO->TIMERROUTE[AUDIO_PWM_TIMER_NUMBER].CC1ROUTE = (AUDIO_PORT_R << _GPIO_TIMER_CC1ROUTE_PORT_SHIFT) | (AUDIO_PIN_R << _GPIO_TIMER_CC1ROUTE_PIN_SHIFT);
+#endif
     #else
         CMU_ClockEnable(cmuClock_VDAC0, true);
         __IOM uint32_t *analogBus[] = {&GPIO->ABUSALLOC, &GPIO->BBUSALLOC, &GPIO->CDBUSALLOC, &GPIO->CDBUSALLOC};
@@ -154,6 +162,36 @@ void initAudio()
         //
         dmaXfer[0].xfer.size = _LDMA_CH_CTRL_SIZE_BYTE;
         dmaXfer[0].xfer.blockSize = _LDMA_CH_CTRL_BLOCKSIZE_UNIT1; // one byte per transfer
+#if STEREO_AUDIO
+        // Config for looping sound
+      LDMAXBAR->CH[AUDIO_DMA_CHANNEL_R].REQSEL = LDMA_REQSEL_VALUE;
+      //
+      LDMA->CH[AUDIO_DMA_CHANNEL_R].LOOP = 0 << _LDMA_CH_LOOP_LOOPCNT_SHIFT;
+      LDMA->CH[AUDIO_DMA_CHANNEL_R].CFG = LDMA_CH_CFG_ARBSLOTS_ONE | LDMA_CH_CFG_SRCINCSIGN_POSITIVE | _LDMA_CH_CFG_DSTINCSIGN_POSITIVE;
+
+      // configure transfer descriptor
+      dmaXfer[1].xfer.structType = _LDMA_CH_CTRL_STRUCTTYPE_TRANSFER;
+      // destination
+      dmaXfer[1].xfer.dstAddrMode = _LDMA_CH_CTRL_DSTMODE_ABSOLUTE;
+
+      dmaXfer[1].xfer.dstAddr = (uint32_t) &AUDIO_PWM_TIMER->CC[1].OCB;
+      dmaXfer[1].xfer.srcAddr = ((uint32_t) audioBufferRight) + 1; //16 bit size, only top part
+      dmaXfer[1].xfer.srcInc = _LDMA_CH_CTRL_SRCINC_TWO;
+      //
+      dmaXfer[1].xfer.size = _LDMA_CH_CTRL_SIZE_BYTE;
+      dmaXfer[1].xfer.blockSize = _LDMA_CH_CTRL_BLOCKSIZE_UNIT1; // one unit per transfer
+      dmaXfer[1].xfer.dstInc = _LDMA_CH_CTRL_DSTINC_NONE;
+      //
+      dmaXfer[1].xfer.srcAddrMode = _LDMA_CH_CTRL_SRCMODE_ABSOLUTE;
+
+      dmaXfer[1].xfer.xferCnt = AUDIO_BUFFER_LENGTH - 1;
+      dmaXfer[1].xfer.linkAddr = (uint32_t) &dmaXfer[1] >> 2;
+      dmaXfer[1].xfer.link = 1;
+      dmaXfer[1].xfer.linkMode = _LDMA_CH_LINK_LINKMODE_ABSOLUTE;
+      //
+      /* Set the descriptor address. */
+      LDMA->CH[AUDIO_DMA_CHANNEL_R].LINK = ((uint32_t) &dmaXfer[1] & _LDMA_CH_LINK_LINKADDR_MASK) | LDMA_CH_LINK_LINK;
+#endif
     #else
         #if STEREO_AUDIO
               // Config for looping sound
@@ -218,7 +256,7 @@ void muteSound()
 {
     for (int i = 0; i < AUDIO_BUFFER_LENGTH; i++)
     {
-        #if AUDIO_MODE == AUDIO_MODE_PWM
+        #if AUDIO_MODE == PWM_AUDIO_MODE
             audioBuffer[i] = ZERO_AUDIO_LEVEL;
             #if STEREO_AUDIO
                   audioBufferRight[i] = ZERO_AUDIO_LEVEL;
@@ -394,7 +432,7 @@ void updateSound()
 
 #endif
     //
-    #if AUDIO_MODE == DAC_AUDIO_MODE
+//    #if AUDIO_MODE == DAC_AUDIO_MODE
         if (_g->mus_playing && !_g->mus_paused && _g->snd_MusicVolume)
         {
           for (uint32_t i = startIdx; i != ((currentIdx - 1) & (AUDIO_BUFFER_LENGTH - 1)); i = (i + 1) & (AUDIO_BUFFER_LENGTH - 1))
@@ -416,5 +454,5 @@ void updateSound()
               #endif
           }
         }
-    #endif
+//    #endif
 }

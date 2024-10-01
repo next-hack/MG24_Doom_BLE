@@ -5,7 +5,12 @@
 /.trash
 *.bak*
 /GNU ARM*/gecko_sdk*
+/SparkDoom/gecko_sdk*
+/TheGamepad*/gecko_sdk*
 imported_project_report.html
+DoomMG24BLE_project.pdf
 /.uceditor/*
 *.mk
 /GNU ARM*/autogen/*
+/SparkDoom/autogen/*
+/TheGamepad*/autogen/*
